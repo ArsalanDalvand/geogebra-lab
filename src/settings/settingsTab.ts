@@ -1,13 +1,13 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import { GEO_GEBRA_APP_NAMES, GeoGebraAppName } from "../parser/types";
-import type GeobsidianPlugin from "../main";
+import type GeoGebraLabPlugin from "../main";
 import { APP_NAME_OPTIONS, DEFAULT_SETTINGS, RENDER_MODE_OPTIONS } from "./settings";
 import { sanitizeHttpUrl, sanitizeScriptUrl } from "../utils/sanitize";
 
 export class GeoGebraLabSettingTab extends PluginSettingTab {
-  plugin: GeobsidianPlugin;
+  plugin: GeoGebraLabPlugin;
 
-  constructor(app: App, plugin: GeobsidianPlugin) {
+  constructor(app: App, plugin: GeoGebraLabPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -16,7 +16,7 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "geobsidian settings" });
+    containerEl.createEl("h2", { text: "GeoGebra Lab settings" });
 
     new Setting(containerEl)
       .setName("Render mode")
@@ -126,7 +126,7 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
       .setDesc("HTTPS page that hosts viewer/index.html. Required only for External viewer mode.")
       .addText((text) => {
         text.inputEl.style.width = "100%";
-        text.setPlaceholder("https://your-domain.example/geobsidian-viewer/");
+        text.setPlaceholder("https://your-domain.example/geogebra-lab-viewer/");
         text.setValue(this.plugin.settings.viewerUrl);
         text.onChange(async (value) => {
           this.plugin.settings.viewerUrl = value.trim()

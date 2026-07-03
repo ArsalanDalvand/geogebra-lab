@@ -1,4 +1,4 @@
-# geobsidian Testing Guide
+# GeoGebra Lab Testing Guide
 
 This guide explains how to manually test the MVP inside Obsidian.
 
@@ -35,7 +35,7 @@ styles.css
 Create this folder in a test vault:
 
 ```text
-TestVault/.obsidian/plugins/geobsidian/
+TestVault/.obsidian/plugins/geogebra-lab/
 ```
 
 Copy these files into it:
@@ -46,7 +46,7 @@ manifest.json
 styles.css
 ```
 
-Restart Obsidian or reload plugins, then enable `geobsidian` in Community plugins.
+Restart Obsidian or reload plugins, then enable `GeoGebra Lab` in Community plugins.
 
 ## 3. Basic Rendering Test
 
@@ -146,7 +146,7 @@ Expected:
 
 ## 8. Network Failure Test
 
-Open geobsidian settings and temporarily set the GeoGebra script URL to an invalid HTTPS URL.
+Open GeoGebra Lab settings and temporarily set the GeoGebra script URL to an invalid HTTPS URL.
 
 Expected:
 
@@ -163,7 +163,7 @@ https://www.geogebra.org/apps/deployggb.js
 
 Use this test when Obsidian CSP blocks GeoGebra CSS or related resources in `srcdoc` mode on desktop.
 
-In geobsidian settings:
+In GeoGebra Lab settings:
 
 1. Set `Render mode` to `Local viewer server`.
 2. Open a note with a valid `geogebra` block.
@@ -197,7 +197,7 @@ Vercel test:
 3. Deploy it as a static site.
 4. Copy the deployed HTTPS URL.
 
-Then in geobsidian settings:
+Then in GeoGebra Lab settings:
 
 1. Set `Render mode` to `External viewer iframe`.
 2. Set `External viewer URL` to the hosted viewer page.

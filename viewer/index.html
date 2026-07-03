@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>geobsidian GeoGebra Viewer</title>
+  <title>GeoGebra Lab Viewer</title>
   <style>
     html,
     body {
@@ -50,8 +50,8 @@
       var blockId = payload && typeof payload.blockId === "string" ? payload.blockId : "";
 
       if (!payload) {
-        showError("Missing or invalid geobsidian viewer payload.");
-        reportError("Missing or invalid geobsidian viewer payload.");
+        showError("Missing or invalid GeoGebra Lab viewer payload.");
+        reportError("Missing or invalid GeoGebra Lab viewer payload.");
         return;
       }
 
@@ -194,9 +194,9 @@
       }
 
       function reportError(message) {
-        console.error("[geobsidian viewer]", message);
+        console.error("[geogebra-lab viewer]", message);
         window.parent.postMessage({
-          source: "geobsidian",
+          source: "geogebra-lab",
           blockId: blockId,
           type: "error",
           message: message

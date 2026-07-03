@@ -1,6 +1,6 @@
 {
-  "name": "geobsidian",
-  "version": "0.1.0",
+  "name": "geogebra-lab",
+  "version": "0.1.1",
   "description": "An Obsidian plugin for embedding interactive GeoGebra diagrams from structured YAML code blocks.",
   "main": "main.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "markdown",
     "education"
   ],
-  "author": "geobsidian contributors",
+  "author": "GeoGebra Lab contributors",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.14.10",

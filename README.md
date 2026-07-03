@@ -1,6 +1,6 @@
-# geobsidian
+# GeoGebra Lab
 
-geobsidian is an Obsidian plugin for embedding interactive GeoGebra diagrams from safe, structured Markdown code blocks.
+GeoGebra Lab is an Obsidian plugin for embedding interactive GeoGebra diagrams from safe, structured Markdown code blocks.
 
 It is designed for notes, teaching material, and AI Agent workflows: Agents generate YAML, while the plugin owns the iframe and GeoGebra JavaScript integration.
 
@@ -22,7 +22,7 @@ This is an MVP implementation.
 3. Copy the plugin folder into your vault:
 
 ```text
-YourVault/.obsidian/plugins/geobsidian/
+YourVault/.obsidian/plugins/geogebra-lab/
 ```
 
 4. Ensure these files are present in that folder:
@@ -35,7 +35,7 @@ styles.css
 
 5. Open Obsidian settings.
 6. Disable Safe mode if needed.
-7. Enable the `geobsidian` community plugin.
+7. Enable the `GeoGebra Lab` community plugin.
 
 For development, run:
 
@@ -47,7 +47,7 @@ npm run dev
 
 Obsidian's Content Security Policy can block CSS or related resources that GeoGebra loads dynamically inside a `srcdoc` iframe. When that happens, the GeoGebra script may load but the applet can appear broken or unstyled.
 
-geobsidian supports three render modes:
+GeoGebra Lab supports three render modes:
 
 | Mode | Use case |
 | --- | --- |
@@ -96,12 +96,12 @@ The simplest Vercel flow:
 After deployment, copy the page URL, for example:
 
 ```text
-https://your-domain.example/geobsidian-viewer/
+https://your-domain.example/geogebra-lab-viewer/
 ```
 
 Then in Obsidian:
 
-1. Open geobsidian settings.
+1. Open GeoGebra Lab settings.
 2. Set `Render mode` to `External viewer iframe`.
 3. Set `External viewer URL` to the deployed viewer URL.
 4. Reload the note.
@@ -214,7 +214,7 @@ More examples are in the `examples/` folder.
 
 ## Commands
 
-geobsidian adds two command palette commands:
+GeoGebra Lab adds two command palette commands:
 
 - `Insert GeoGebra graph block`
 - `Insert GeoGebra geometry block`
@@ -266,7 +266,7 @@ When revising an existing diagram, the Agent should preserve the fenced code blo
 Recommended instructions for an Obsidian Agent:
 
 ```text
-When creating GeoGebra diagrams in this vault, use the geobsidian plugin syntax.
+When creating GeoGebra diagrams in this vault, use the GeoGebra Lab plugin syntax.
 
 Always output a complete Markdown fenced code block using ```geogebra.
 Inside the block, write YAML only.
@@ -295,7 +295,7 @@ If a GeoGebra command may be invalid, say it needs review instead of inventing J
 Example user request to an Agent:
 
 ```text
-Create a geobsidian GeoGebra block that shows y=x^2, its tangent line at x=1, and a point of tangency. Use graphing mode and include a short explanation.
+Create a `geogebra` code block for GeoGebra Lab that shows y=x^2, its tangent line at x=1, and a point of tangency. Use graphing mode and include a short explanation.
 ```
 
 Expected Agent output:
@@ -319,7 +319,7 @@ The included Agent Skill at `skills/geogebra-lab/SKILL.md` documents the recomme
 
 ## Safety
 
-geobsidian does not execute arbitrary JavaScript from Markdown code blocks.
+GeoGebra Lab does not execute arbitrary JavaScript from Markdown code blocks.
 
 The plugin:
 
@@ -339,7 +339,7 @@ sandbox="allow-scripts allow-same-origin"
 
 GeoGebra needs script execution to run. `allow-same-origin` may be required for GeoGebra internals, so this is still an iframe isolation boundary but not a complete browser security wall.
 
-For Local viewer server and External viewer mode, geobsidian validates `postMessage` errors by both iframe window and viewer origin before displaying them in the note.
+For Local viewer server and External viewer mode, GeoGebra Lab validates `postMessage` errors by both iframe window and viewer origin before displaying them in the note.
 
 ## Known Limitations
 

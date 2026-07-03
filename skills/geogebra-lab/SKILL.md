@@ -1,6 +1,6 @@
 ---
 name: geogebra-lab
-description: Use this skill when the user wants to create, revise, validate, or embed interactive GeoGebra diagrams in Obsidian using the geobsidian code block syntax.
+description: Use this skill when the user wants to create, revise, validate, or embed interactive GeoGebra diagrams in Obsidian using the GeoGebra Lab code block syntax.
 ---
 
 # GeoGebra Lab Skill
@@ -13,7 +13,7 @@ This skill helps generate safe, editable, Agent-friendly GeoGebra code blocks fo
 
 Agents should output structured `geogebra` code blocks, not raw iframe HTML or JavaScript.
 
-The geobsidian plugin is responsible for rendering the iframe, loading GeoGebra, and executing GeoGebra commands. The Agent should only create or revise Markdown YAML blocks.
+The GeoGebra Lab plugin is responsible for rendering the iframe, loading GeoGebra, and executing GeoGebra commands. The Agent should only create or revise Markdown YAML blocks.
 
 The plugin may render through `srcdoc`, Local viewer server, or External viewer mode to avoid Obsidian CSP issues. This does not change the Agent output format.
 
@@ -71,7 +71,7 @@ When editing an existing diagram:
 Use this instruction when configuring an Agent inside Obsidian:
 
 ```text
-When creating GeoGebra diagrams in this vault, use the geobsidian plugin syntax.
+When creating GeoGebra diagrams in this vault, use the GeoGebra Lab plugin syntax.
 
 Always output a complete Markdown fenced code block using ```geogebra.
 Inside the block, write YAML only.

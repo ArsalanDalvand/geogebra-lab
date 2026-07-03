@@ -45,7 +45,7 @@ class GeoGebraBlockChild extends MarkdownRenderChild {
   }
 }
 
-export default class GeobsidianPlugin extends Plugin {
+export default class GeoGebraLabPlugin extends Plugin {
   settings: GeoGebraLabSettings;
   private errorTargets = new Map<string, GeoGebraFrameTarget>();
   private localViewerServer = new LocalViewerServer();
@@ -60,7 +60,7 @@ export default class GeobsidianPlugin extends Plugin {
 
     this.registerDomEvent(window, "message", (event: MessageEvent<GeoGebraFrameMessage>) => {
       const data = event.data;
-      if (!data || data.source !== "geobsidian" || data.type !== "error" || !data.blockId) {
+      if (!data || data.source !== "geogebra-lab" || data.type !== "error" || !data.blockId) {
         return;
       }
 
@@ -153,7 +153,7 @@ export default class GeobsidianPlugin extends Plugin {
     if (this.settings.renderMode === "externalViewer" && !viewerOrigin) {
       this.appendListMessage(
         errorEl,
-        "External viewer mode requires a valid HTTP or HTTPS viewer URL in geobsidian settings."
+        "External viewer mode requires a valid HTTP or HTTPS viewer URL in GeoGebra Lab settings."
       );
       return;
     }
@@ -231,7 +231,7 @@ export default class GeobsidianPlugin extends Plugin {
   }
 
   private createBlockId(): string {
-    return `geobsidian-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    return `geogebra-lab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }
 
   private buildGraphTemplate(): string {

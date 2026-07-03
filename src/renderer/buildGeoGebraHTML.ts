@@ -52,7 +52,7 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
       height: 100%;
     }
 
-    .geobsidian-loading {
+    .geogebra-lab-loading {
       box-sizing: border-box;
       width: 100%;
       height: 100%;
@@ -66,7 +66,7 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
   </style>
 </head>
 <body>
-  <div id="ggb-element"><div class="geobsidian-loading">Loading GeoGebra...</div></div>
+  <div id="ggb-element"><div class="geogebra-lab-loading">Loading GeoGebra...</div></div>
   <script>
     (function () {
       "use strict";
@@ -77,9 +77,9 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
       const geogebraScriptUrl = ${serializedScriptUrl};
 
       function reportError(message) {
-        console.error("[geobsidian]", message);
+        console.error("[geogebra-lab]", message);
         window.parent.postMessage({
-          source: "geobsidian",
+          source: "geogebra-lab",
           blockId: blockId,
           type: "error",
           message: message

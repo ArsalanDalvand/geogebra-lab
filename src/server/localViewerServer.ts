@@ -1,3 +1,6 @@
+import { createServer } from "http";
+import type { Server } from "http";
+import type { AddressInfo } from "net";
 import viewerHtml from "../../viewer/index.html";
 
 export interface LocalViewerServerInfo {
@@ -6,15 +9,13 @@ export interface LocalViewerServerInfo {
 }
 
 export class LocalViewerServer {
-  private server?: import("http").Server;
+  private server?: Server;
   private info?: LocalViewerServerInfo;
 
   async start(): Promise<LocalViewerServerInfo> {
     if (this.info) {
       return this.info;
     }
-
-    const { createServer } = require("http") as typeof import("http");
 
     this.server = createServer((request, response) => {
       const path = request.url ? request.url.split("?")[0].split("#")[0] : "/";
@@ -55,7 +56,8 @@ export class LocalViewerServer {
       throw new Error("Local viewer server did not expose a TCP port.");
     }
 
-    const origin = `http://127.0.0.1:${address.port}`;
+    const tcpAddress: AddressInfo = address;
+    const origin = `http://127.0.0.1:${tcpAddress.port}`;
     this.info = {
       origin,
       viewerUrl: `${origin}/viewer`
@@ -75,7 +77,7 @@ export class LocalViewerServer {
     await new Promise<void>((resolve, reject) => {
       server.close((error) => {
         if (error) {
-          reject(error);
+          reject(error instanceof Error ? error : new Error(String(error)));
           return;
         }
         resolve();

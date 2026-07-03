@@ -56,14 +56,9 @@
       }
 
       var config = normalizeConfig(payload.config || {});
-      var geogebraScriptUrl = sanitizeHttpUrl(
-        payload.geogebraScriptUrl,
-        "https://www.geogebra.org/apps/deployggb.js"
-      );
-
-      loadGeoGebra(geogebraScriptUrl, function () {
+      window.__geogebraLabViewerInjectApplet = function () {
         injectApplet(config);
-      });
+      };
 
       function readPayload() {
         try {
@@ -103,31 +98,6 @@
           return Math.round(numberValue);
         }
         return fallback;
-      }
-
-      function sanitizeHttpUrl(value, fallback) {
-        try {
-          var url = new URL(String(value));
-          if (url.protocol === "https:" || url.protocol === "http:") {
-            return url.toString();
-          }
-        } catch (error) {
-          return fallback;
-        }
-        return fallback;
-      }
-
-      function loadGeoGebra(scriptUrl, onload) {
-        var script = document.createElement("script");
-        script.src = scriptUrl;
-        script.async = true;
-        script.onload = onload;
-        script.onerror = function () {
-          var message = "GeoGebra script failed to load: " + scriptUrl;
-          showError(message);
-          reportError(message);
-        };
-        document.head.appendChild(script);
       }
 
       function injectApplet(config) {
@@ -207,6 +177,12 @@
         return error && error.message ? error.message : String(error);
       }
     })();
+  </script>
+  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+  <script>
+    if (typeof window.__geogebraLabViewerInjectApplet === "function") {
+      window.__geogebraLabViewerInjectApplet();
+    }
   </script>
 </body>
 </html>

@@ -16,7 +16,7 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "GeoGebra Lab settings" });
+    new Setting(containerEl).setName("GeoGebra Lab settings").setHeading();
 
     new Setting(containerEl)
       .setName("Render mode")
@@ -113,7 +113,7 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
       .setName("GeoGebra script URL")
       .setDesc("The online deployggb.js URL used by srcdoc mode and passed to the external viewer.")
       .addText((text) => {
-        text.inputEl.style.width = "100%";
+        text.inputEl.setCssStyles({ width: "100%" });
         text.setValue(this.plugin.settings.geogebraScriptUrl);
         text.onChange(async (value) => {
           this.plugin.settings.geogebraScriptUrl = sanitizeScriptUrl(value);
@@ -125,7 +125,7 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
       .setName("External viewer URL")
       .setDesc("HTTPS page that hosts viewer/index.html. Required only for External viewer mode.")
       .addText((text) => {
-        text.inputEl.style.width = "100%";
+        text.inputEl.setCssStyles({ width: "100%" });
         text.setPlaceholder("https://your-domain.example/geogebra-lab-viewer/");
         text.setValue(this.plugin.settings.viewerUrl);
         text.onChange(async (value) => {

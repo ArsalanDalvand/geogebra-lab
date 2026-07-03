@@ -3,6 +3,10 @@
   color: var(--text-normal);
 }
 
+.geogebra-lab-hidden {
+  display: none;
+}
+
 .geogebra-lab-frame {
   display: block;
   max-width: 100%;

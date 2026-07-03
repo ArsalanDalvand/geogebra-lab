@@ -10,7 +10,11 @@ import { buildExternalViewerIframe } from "./renderer/buildExternalViewerIframe"
 import { buildIframe } from "./renderer/buildIframe";
 import { LocalViewerServer } from "./server/localViewerServer";
 import { GeoGebraLabSettingTab } from "./settings/settingsTab";
-import { DEFAULT_SETTINGS, GeoGebraLabSettings } from "./settings/settings";
+import {
+  DEFAULT_SETTINGS,
+  GeoGebraLabSettings,
+  GeoGebraRenderMode
+} from "./settings/settings";
 import { getUrlOrigin } from "./utils/sanitize";
 
 interface GeoGebraFrameMessage {
@@ -24,6 +28,64 @@ interface GeoGebraFrameTarget {
   errorEl: HTMLElement;
   frameWindow: Window | null;
   allowedOrigin?: string;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readString(value: unknown, fallback: string): string {
+  return typeof value === "string" ? value : fallback;
+}
+
+function readNumber(value: unknown, fallback: number): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function readBoolean(value: unknown, fallback: boolean): boolean {
+  return typeof value === "boolean" ? value : fallback;
+}
+
+function readRenderMode(value: unknown, fallback: GeoGebraRenderMode): GeoGebraRenderMode {
+  if (value === "srcdoc" || value === "localServer" || value === "externalViewer") {
+    return value;
+  }
+  return fallback;
+}
+
+function normalizeSettings(data: unknown): GeoGebraLabSettings {
+  if (!isRecord(data)) {
+    return { ...DEFAULT_SETTINGS };
+  }
+
+  return {
+    defaultAppName:
+      data.defaultAppName === "graphing" ||
+      data.defaultAppName === "geometry" ||
+      data.defaultAppName === "3d" ||
+      data.defaultAppName === "classic"
+        ? data.defaultAppName
+        : DEFAULT_SETTINGS.defaultAppName,
+    defaultWidth: readNumber(data.defaultWidth, DEFAULT_SETTINGS.defaultWidth),
+    defaultHeight: readNumber(data.defaultHeight, DEFAULT_SETTINGS.defaultHeight),
+    defaultShowToolBar: readBoolean(
+      data.defaultShowToolBar,
+      DEFAULT_SETTINGS.defaultShowToolBar
+    ),
+    defaultShowAlgebraInput: readBoolean(
+      data.defaultShowAlgebraInput,
+      DEFAULT_SETTINGS.defaultShowAlgebraInput
+    ),
+    defaultShowMenuBar: readBoolean(
+      data.defaultShowMenuBar,
+      DEFAULT_SETTINGS.defaultShowMenuBar
+    ),
+    renderMode: readRenderMode(data.renderMode, DEFAULT_SETTINGS.renderMode),
+    geogebraScriptUrl: readString(data.geogebraScriptUrl, DEFAULT_SETTINGS.geogebraScriptUrl),
+    viewerUrl: readString(data.viewerUrl, DEFAULT_SETTINGS.viewerUrl),
+    enableCaption: readBoolean(data.enableCaption, DEFAULT_SETTINGS.enableCaption),
+    enableExplain: readBoolean(data.enableExplain, DEFAULT_SETTINGS.enableExplain)
+  };
 }
 
 class GeoGebraBlockChild extends MarkdownRenderChild {
@@ -104,7 +166,8 @@ export default class GeoGebraLabPlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const data: unknown = await this.loadData();
+    this.settings = normalizeSettings(data);
   }
 
   async saveSettings(): Promise<void> {
@@ -131,7 +194,7 @@ export default class GeoGebraLabPlugin extends Plugin {
     const blockId = this.createBlockId();
 
     const errorEl = container.createDiv({ cls: "geogebra-lab-error" });
-    errorEl.style.display = "none";
+    errorEl.addClass("geogebra-lab-hidden");
 
     if (result.errors.length > 0) {
       this.appendMessages(errorEl, result.errors);
@@ -222,7 +285,7 @@ export default class GeoGebraLabPlugin extends Plugin {
   }
 
   private appendListMessage(container: HTMLElement, message: string): void {
-    container.style.display = "";
+    container.removeClass("geogebra-lab-hidden");
     let listEl = container.querySelector("ul");
     if (!listEl) {
       listEl = container.createEl("ul");

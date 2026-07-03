@@ -3,7 +3,7 @@
   "name": "GeoGebra Lab",
   "version": "0.1.1",
   "minAppVersion": "1.5.0",
-  "description": "Embed safe, editable, Agent-friendly GeoGebra diagrams in Obsidian Markdown code blocks.",
+  "description": "Embed safe, editable, Agent-friendly GeoGebra diagrams in Markdown code blocks.",
   "author": "GeoGebra Lab contributors",
   "authorUrl": "",
   "fundingUrl": "",

@@ -28,16 +28,18 @@ function buildViewerSrc(options: BuildExternalViewerIframeOptions): string {
 export function buildExternalViewerIframe(
   options: BuildExternalViewerIframeOptions
 ): HTMLIFrameElement {
-  const iframe = document.createElement("iframe");
+  const iframe = activeDocument.createElement("iframe");
   iframe.className = "geogebra-lab-frame";
   iframe.title = "Interactive GeoGebra applet";
   iframe.loading = "lazy";
   iframe.sandbox.add("allow-scripts", "allow-same-origin");
   iframe.setAttribute("width", String(options.config.width));
   iframe.setAttribute("height", String(options.config.height));
-  iframe.style.width = `${options.config.width}px`;
-  iframe.style.maxWidth = "100%";
-  iframe.style.height = `${options.config.height}px`;
+  iframe.setCssStyles({
+    width: `${options.config.width}px`,
+    maxWidth: "100%",
+    height: `${options.config.height}px`
+  });
   iframe.src = buildViewerSrc(options);
   return iframe;
 }

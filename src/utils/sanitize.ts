@@ -14,6 +14,23 @@ export function safeJsonForScript(value: unknown): string {
   });
 }
 
+export function escapeHtmlAttribute(value: string): string {
+  return value.replace(/[&"<>\u0000-\u001f\u007f-\u009f]/g, (character) => {
+    switch (character) {
+      case "&":
+        return "&amp;";
+      case "\"":
+        return "&quot;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      default:
+        return "";
+    }
+  });
+}
+
 export function sanitizeScriptUrl(url: string): string {
   return sanitizeHttpUrl(url, DEFAULT_SETTINGS.geogebraScriptUrl);
 }

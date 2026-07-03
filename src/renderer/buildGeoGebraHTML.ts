@@ -1,5 +1,5 @@
 import { GeoGebraBlockConfig } from "../parser/types";
-import { safeJsonForScript, sanitizeScriptUrl } from "../utils/sanitize";
+import { escapeHtmlAttribute, safeJsonForScript, sanitizeScriptUrl } from "../utils/sanitize";
 
 export interface BuildGeoGebraHTMLOptions {
   blockId: string;
@@ -30,7 +30,7 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
   const serializedBlockId = safeJsonForScript(blockId);
   const serializedParams = safeJsonForScript(appletParams);
   const serializedCommands = safeJsonForScript(config.commands);
-  const serializedScriptUrl = safeJsonForScript(sanitizeScriptUrl(options.geogebraScriptUrl));
+  const scriptUrl = sanitizeScriptUrl(options.geogebraScriptUrl);
 
   return `<!doctype html>
 <html>
@@ -74,7 +74,6 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
       const blockId = ${serializedBlockId};
       const params = ${serializedParams};
       const commands = ${serializedCommands};
-      const geogebraScriptUrl = ${serializedScriptUrl};
 
       function reportError(message) {
         console.error("[geogebra-lab]", message);
@@ -100,7 +99,7 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
         });
       }
 
-      function injectApplet() {
+      window.__geogebraLabInjectApplet = function () {
         if (typeof window.GGBApplet !== "function") {
           reportError("GeoGebra script loaded, but GGBApplet was not available.");
           return;
@@ -119,17 +118,12 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
           const message = error && error.message ? error.message : String(error);
           reportError("GeoGebra applet failed to initialize: " + message);
         }
-      }
-
-      const script = document.createElement("script");
-      script.src = geogebraScriptUrl;
-      script.async = true;
-      script.onload = injectApplet;
-      script.onerror = function () {
-        reportError("GeoGebra script failed to load: " + geogebraScriptUrl);
       };
-      document.head.appendChild(script);
     })();
+  </script>
+  <script src="${escapeHtmlAttribute(scriptUrl)}"></script>
+  <script>
+    window.__geogebraLabInjectApplet();
   </script>
 </body>
 </html>`;

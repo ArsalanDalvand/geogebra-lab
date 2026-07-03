@@ -1,5 +1,7 @@
 # GeoGebra Lab
 
+[中文说明](README.zh-CN.md)
+
 GeoGebra Lab is an Obsidian plugin for embedding interactive GeoGebra diagrams from safe, structured Markdown code blocks.
 
 It is designed for notes, teaching material, and AI Agent workflows: Agents generate YAML, while the plugin owns the iframe and GeoGebra JavaScript integration.
@@ -79,6 +81,14 @@ Notes:
 ### External Viewer With Vercel
 
 External viewer mode loads GeoGebra from a standalone HTTPS page instead of an Obsidian `srcdoc` document. It is useful when local server mode is unavailable or when you want the same viewer URL across devices.
+
+You can use the hosted viewer maintained by this project:
+
+```text
+https://geobsidian.vercel.app/
+```
+
+Set `External viewer URL` to the URL above if you do not want to deploy your own viewer.
 
 You can deploy this file to Vercel:
 
@@ -346,7 +356,7 @@ For Local viewer server and External viewer mode, GeoGebra Lab validates `postMe
 - Online access to GeoGebra is required.
 - Offline GeoGebra bundles are not included.
 - Local viewer server mode is desktop-only.
-- External viewer mode requires you to host `viewer/index.html` on an HTTP or HTTPS URL, such as a Vercel deployment.
+- External viewer mode requires an HTTP or HTTPS viewer URL. You can use `https://geobsidian.vercel.app/` or host `viewer/index.html` yourself.
 - Large constructions may make the iframe URL hash long in Local viewer server or External viewer mode.
 - `.ggb` attachment path resolution is not implemented.
 - Command validity is checked only at runtime by GeoGebra.

@@ -1,0 +1,11 @@
+{
+  "id": "geobsidian",
+  "name": "geobsidian",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Embed safe, editable, Agent-friendly GeoGebra diagrams in Obsidian Markdown code blocks.",
+  "author": "geobsidian contributors",
+  "authorUrl": "",
+  "fundingUrl": "",
+  "isDesktopOnly": false
+}

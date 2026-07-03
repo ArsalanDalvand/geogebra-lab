@@ -1,0 +1,58 @@
+.geogebra-lab-container {
+  margin: 1rem 0;
+  color: var(--text-normal);
+}
+
+.geogebra-lab-frame {
+  display: block;
+  max-width: 100%;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  background: var(--background-primary);
+}
+
+.geogebra-lab-caption {
+  margin-top: 0.45rem;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.geogebra-lab-explain {
+  margin-top: 0.5rem;
+  color: var(--text-normal);
+  font-size: 0.92em;
+}
+
+.geogebra-lab-explain ul {
+  margin: 0.35rem 0 0;
+  padding-inline-start: 1.35rem;
+}
+
+.geogebra-lab-error,
+.geogebra-lab-warning {
+  margin: 0.5rem 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.geogebra-lab-error {
+  border: 1px solid var(--text-error);
+  background: color-mix(in srgb, var(--text-error) 10%, transparent);
+  color: var(--text-error);
+}
+
+.geogebra-lab-warning {
+  border: 1px solid var(--text-warning);
+  background: color-mix(in srgb, var(--text-warning) 10%, transparent);
+  color: var(--text-normal);
+}
+
+.geogebra-lab-error ul,
+.geogebra-lab-warning ul {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+}

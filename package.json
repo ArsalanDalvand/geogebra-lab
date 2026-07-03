@@ -1,0 +1,24 @@
+{
+  "name": "geobsidian",
+  "version": "0.1.0",
+  "description": "An Obsidian plugin for embedding interactive GeoGebra diagrams from structured YAML code blocks.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "geogebra",
+    "markdown",
+    "education"
+  ],
+  "author": "geobsidian contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "esbuild": "^0.23.0",
+    "obsidian": "^1.5.12",
+    "typescript": "^5.5.3"
+  }
+}

@@ -19,7 +19,8 @@ function readString(value: unknown, fallback: string): string {
 
 function readPositiveNumber(value: unknown, fallback: number): number {
   if (typeof value === "number" && Number.isFinite(value) && value > 0) {
-    return Math.round(value);
+    const rounded = Math.round(value);
+    return rounded > 0 ? rounded : fallback;
   }
   return fallback;
 }

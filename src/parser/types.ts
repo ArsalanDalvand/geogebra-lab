@@ -95,22 +95,76 @@ export interface GeoGebraBlockConfig {
 }
 
 export interface GeoGebraParserDefaults {
+  // App & View defaults
   defaultAppName: GeoGebraAppName;
+  defaultPerspective?: string;
+
+  // Sizing & Appearance defaults
   defaultWidth: number;
   defaultHeight: number;
-  defaultShowToolBar: boolean;
-  defaultShowAlgebraInput: boolean;
-  defaultShowMenuBar: boolean;
-  defaultLanguage?: string;
-  defaultLoadingText?: string;
+  defaultScale?: number;
+  defaultAutoHeight?: boolean;
+  defaultAllowUpscale?: boolean;
+  defaultScaleContainerClass?: string;
+  defaultBorderColor?: string;
+  defaultBorderRadius?: number;
   defaultTransparentGraphics?: boolean;
-  defaultShowResetIcon?: boolean;
-  defaultShowFullscreenButton?: boolean;
+
+  // Toolbars & Menus defaults
+  defaultShowToolBar: boolean;
+  defaultShowToolBarHelp?: boolean;
+  defaultCustomToolBar?: string;
+  defaultCustomToolbox?: string;
+  defaultShowAlgebraInput: boolean;
+  defaultAlgebraInputPosition?: GeoGebraAlgebraInputPosition;
+  defaultShowMenuBar: boolean;
+  defaultAllowStyleBar?: boolean;
+  defaultEnableUndoRedo?: boolean;
+
+  // View Controls & Buttons defaults
   defaultShowZoomButtons?: boolean;
+  defaultShowFullscreenButton?: boolean;
+  defaultShowAnimationButton?: boolean;
+  defaultShowResetIcon?: boolean;
+  defaultShowSuggestionButtons?: boolean;
+  defaultShowStartTooltip?: boolean;
+  defaultPlayButton?: boolean;
+  defaultButtonRounding?: number;
+  defaultButtonShadows?: boolean;
+  defaultButtonBorderColor?: string;
+
+  // Interactivity & Security defaults
   defaultEnableRightClick?: boolean;
   defaultEnableLabelDrags?: boolean;
   defaultEnableShiftDragZoom?: boolean;
+  defaultCapturingThreshold?: number;
   defaultPreventFocus?: boolean;
+  defaultEnableFileFeatures?: boolean;
+  defaultDisableJavaScript?: boolean;
+
+  // Localization & Mathematics defaults
+  defaultLanguage?: string;
+  defaultCountry?: string;
+  defaultRounding?: string;
+  defaultRandomSeed?: number;
+  defaultRandomize?: boolean;
+  defaultErrorDialogsActive?: boolean;
+  defaultShowLogging?: boolean;
+  defaultUseBrowserForJS?: boolean;
+
+  // Exam & Evaluator defaults
+  defaultEnable3d?: boolean;
+  defaultEnableCAS?: boolean;
+  defaultEditorBackgroundColor?: string;
+  defaultEditorForegroundColor?: string;
+  defaultTextmode?: boolean;
+  defaultShowKeyboardOnFocus?: GeoGebraKeyboardFocusMode;
+  defaultKeyboardType?: GeoGebraKeyboardType;
+  defaultDetachKeyboard?: GeoGebraDetachKeyboardMode;
+  defaultDetachedKeyboardParent?: string;
+
+  // Custom UI Text defaults
+  defaultLoadingText?: string;
 }
 
 export interface GeoGebraParseResult {

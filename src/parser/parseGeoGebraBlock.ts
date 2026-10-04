@@ -76,21 +76,33 @@ export function parseGeoGebraBlock(
     materialId: parseOptionalString(parsed.materialId, "materialId", errors),
     filename: parseOptionalString(parsed.filename, "filename", errors),
     ggbBase64: parseOptionalString(parsed.ggbBase64, "ggbBase64", errors),
-    perspective: parseOptionalString(parsed.perspective, "perspective", errors),
+    perspective:
+      parseOptionalString(parsed.perspective, "perspective", errors) ??
+      (defaults.defaultPerspective ? defaults.defaultPerspective : undefined),
 
     // Sizing & Appearance
     width: parseDimension(parsed.width, defaults.defaultWidth, "width", errors),
     height: parseDimension(parsed.height, defaults.defaultHeight, "height", errors),
-    scale: parseOptionalNumber(parsed.scale, "scale", errors, 0.1, 10),
-    autoHeight: parseOptionalBoolean(parsed.autoHeight, "autoHeight", errors),
-    allowUpscale: parseOptionalBoolean(parsed.allowUpscale, "allowUpscale", errors),
-    scaleContainerClass: parseOptionalString(
-      parsed.scaleContainerClass,
-      "scaleContainerClass",
-      errors
-    ),
-    borderColor: parseColor(parsed.borderColor, "borderColor", errors),
-    borderRadius: parseOptionalNumber(parsed.borderRadius, "borderRadius", errors, 0),
+    scale:
+      parseOptionalNumber(parsed.scale, "scale", errors, 0.1, 10) ??
+      defaults.defaultScale,
+    autoHeight:
+      parseOptionalBoolean(parsed.autoHeight, "autoHeight", errors) ??
+      defaults.defaultAutoHeight,
+    allowUpscale:
+      parseOptionalBoolean(parsed.allowUpscale, "allowUpscale", errors) ??
+      defaults.defaultAllowUpscale,
+    scaleContainerClass:
+      parseOptionalString(parsed.scaleContainerClass, "scaleContainerClass", errors) ??
+      (defaults.defaultScaleContainerClass ? defaults.defaultScaleContainerClass : undefined),
+    borderColor:
+      parseColor(parsed.borderColor, "borderColor", errors) ??
+      (defaults.defaultBorderColor ? defaults.defaultBorderColor : undefined),
+    borderRadius:
+      parseOptionalNumber(parsed.borderRadius, "borderRadius", errors, 0) ??
+      (typeof defaults.defaultBorderRadius === "number" && defaults.defaultBorderRadius > 0
+        ? defaults.defaultBorderRadius
+        : undefined),
     transparentGraphics:
       parseOptionalBoolean(parsed.transparentGraphics, "transparentGraphics", errors) ??
       defaults.defaultTransparentGraphics,
@@ -108,23 +120,34 @@ export function parseGeoGebraBlock(
       "showToolBar",
       errors
     ),
-    showToolBarHelp: parseOptionalBoolean(parsed.showToolBarHelp, "showToolBarHelp", errors),
-    customToolBar: parseOptionalString(parsed.customToolBar, "customToolBar", errors),
-    customToolbox: parseOptionalString(parsed.customToolbox, "customToolbox", errors),
+    showToolBarHelp:
+      parseOptionalBoolean(parsed.showToolBarHelp, "showToolBarHelp", errors) ??
+      defaults.defaultShowToolBarHelp,
+    customToolBar:
+      parseOptionalString(parsed.customToolBar, "customToolBar", errors) ??
+      (defaults.defaultCustomToolBar ? defaults.defaultCustomToolBar : undefined),
+    customToolbox:
+      parseOptionalString(parsed.customToolbox, "customToolbox", errors) ??
+      (defaults.defaultCustomToolbox ? defaults.defaultCustomToolbox : undefined),
     showAlgebraInput: parseBoolean(
       parsed.showAlgebraInput,
       defaults.defaultShowAlgebraInput,
       "showAlgebraInput",
       errors
     ),
-    algebraInputPosition: parseEnum<GeoGebraAlgebraInputPosition>(
-      parsed.algebraInputPosition,
-      ALGEBRA_INPUT_POSITIONS,
-      "algebraInputPosition",
-      errors
-    ),
-    allowStyleBar: parseOptionalBoolean(parsed.allowStyleBar, "allowStyleBar", errors),
-    enableUndoRedo: parseOptionalBoolean(parsed.enableUndoRedo, "enableUndoRedo", errors),
+    algebraInputPosition:
+      parseEnum<GeoGebraAlgebraInputPosition>(
+        parsed.algebraInputPosition,
+        ALGEBRA_INPUT_POSITIONS,
+        "algebraInputPosition",
+        errors
+      ) ?? defaults.defaultAlgebraInputPosition,
+    allowStyleBar:
+      parseOptionalBoolean(parsed.allowStyleBar, "allowStyleBar", errors) ??
+      defaults.defaultAllowStyleBar,
+    enableUndoRedo:
+      parseOptionalBoolean(parsed.enableUndoRedo, "enableUndoRedo", errors) ??
+      defaults.defaultEnableUndoRedo,
 
     // View Controls & Buttons
     showZoomButtons:
@@ -133,24 +156,30 @@ export function parseGeoGebraBlock(
     showFullscreenButton:
       parseOptionalBoolean(parsed.showFullscreenButton, "showFullscreenButton", errors) ??
       defaults.defaultShowFullscreenButton,
-    showAnimationButton: parseOptionalBoolean(
-      parsed.showAnimationButton,
-      "showAnimationButton",
-      errors
-    ),
+    showAnimationButton:
+      parseOptionalBoolean(parsed.showAnimationButton, "showAnimationButton", errors) ??
+      defaults.defaultShowAnimationButton,
     showResetIcon:
       parseOptionalBoolean(parsed.showResetIcon, "showResetIcon", errors) ??
       defaults.defaultShowResetIcon,
-    showSuggestionButtons: parseOptionalBoolean(
-      parsed.showSuggestionButtons,
-      "showSuggestionButtons",
-      errors
-    ),
-    showStartTooltip: parseOptionalBoolean(parsed.showStartTooltip, "showStartTooltip", errors),
-    playButton: parseOptionalBoolean(parsed.playButton, "playButton", errors),
-    buttonRounding: parseOptionalNumber(parsed.buttonRounding, "buttonRounding", errors, 0, 0.9),
-    buttonShadows: parseOptionalBoolean(parsed.buttonShadows, "buttonShadows", errors),
-    buttonBorderColor: parseColor(parsed.buttonBorderColor, "buttonBorderColor", errors),
+    showSuggestionButtons:
+      parseOptionalBoolean(parsed.showSuggestionButtons, "showSuggestionButtons", errors) ??
+      defaults.defaultShowSuggestionButtons,
+    showStartTooltip:
+      parseOptionalBoolean(parsed.showStartTooltip, "showStartTooltip", errors) ??
+      defaults.defaultShowStartTooltip,
+    playButton:
+      parseOptionalBoolean(parsed.playButton, "playButton", errors) ??
+      defaults.defaultPlayButton,
+    buttonRounding:
+      parseOptionalNumber(parsed.buttonRounding, "buttonRounding", errors, 0, 0.9) ??
+      defaults.defaultButtonRounding,
+    buttonShadows:
+      parseOptionalBoolean(parsed.buttonShadows, "buttonShadows", errors) ??
+      defaults.defaultButtonShadows,
+    buttonBorderColor:
+      parseColor(parsed.buttonBorderColor, "buttonBorderColor", errors) ??
+      (defaults.defaultButtonBorderColor ? defaults.defaultButtonBorderColor : undefined),
 
     // Interactivity & Security
     enableRightClick:
@@ -162,70 +191,73 @@ export function parseGeoGebraBlock(
     enableShiftDragZoom:
       parseOptionalBoolean(parsed.enableShiftDragZoom, "enableShiftDragZoom", errors) ??
       defaults.defaultEnableShiftDragZoom,
-    capturingThreshold: parseOptionalNumber(
-      parsed.capturingThreshold,
-      "capturingThreshold",
-      errors,
-      0,
-      100
-    ),
+    capturingThreshold:
+      parseOptionalNumber(parsed.capturingThreshold, "capturingThreshold", errors, 0, 100) ??
+      defaults.defaultCapturingThreshold,
     preventFocus:
       parseOptionalBoolean(parsed.preventFocus, "preventFocus", errors) ??
       defaults.defaultPreventFocus,
-    enableFileFeatures: parseOptionalBoolean(
-      parsed.enableFileFeatures,
-      "enableFileFeatures",
-      errors
-    ),
-    disableJavaScript: parseOptionalBoolean(parsed.disableJavaScript, "disableJavaScript", errors),
+    enableFileFeatures:
+      parseOptionalBoolean(parsed.enableFileFeatures, "enableFileFeatures", errors) ??
+      defaults.defaultEnableFileFeatures,
+    disableJavaScript:
+      parseOptionalBoolean(parsed.disableJavaScript, "disableJavaScript", errors) ??
+      defaults.defaultDisableJavaScript,
 
     // Localization & Mathematics
     language:
       parseOptionalString(parsed.language, "language", errors) ??
       (defaults.defaultLanguage ? defaults.defaultLanguage : undefined),
-    country: parseOptionalString(parsed.country, "country", errors),
-    rounding: parseOptionalString(parsed.rounding, "rounding", errors),
-    randomSeed: parseOptionalNumber(parsed.randomSeed, "randomSeed", errors),
-    randomize: parseOptionalBoolean(parsed.randomize, "randomize", errors),
-    errorDialogsActive: parseOptionalBoolean(
-      parsed.errorDialogsActive,
-      "errorDialogsActive",
-      errors
-    ),
-    showLogging: parseOptionalBoolean(parsed.showLogging, "showLogging", errors),
-    useBrowserForJS: parseOptionalBoolean(parsed.useBrowserForJS, "useBrowserForJS", errors),
+    country:
+      parseOptionalString(parsed.country, "country", errors) ??
+      (defaults.defaultCountry ? defaults.defaultCountry : undefined),
+    rounding:
+      parseOptionalString(parsed.rounding, "rounding", errors) ??
+      (defaults.defaultRounding ? defaults.defaultRounding : undefined),
+    randomSeed:
+      parseOptionalNumber(parsed.randomSeed, "randomSeed", errors) ??
+      defaults.defaultRandomSeed,
+    randomize:
+      parseOptionalBoolean(parsed.randomize, "randomize", errors) ??
+      defaults.defaultRandomize,
+    errorDialogsActive:
+      parseOptionalBoolean(parsed.errorDialogsActive, "errorDialogsActive", errors) ??
+      defaults.defaultErrorDialogsActive,
+    showLogging:
+      parseOptionalBoolean(parsed.showLogging, "showLogging", errors) ??
+      defaults.defaultShowLogging,
+    useBrowserForJS:
+      parseOptionalBoolean(parsed.useBrowserForJS, "useBrowserForJS", errors) ??
+      defaults.defaultUseBrowserForJS,
 
     // Exam & Evaluator
-    enable3d: parseOptionalBoolean(parsed.enable3d, "enable3d", errors),
-    enableCAS: parseOptionalBoolean(parsed.enableCAS, "enableCAS", errors),
-    editorBackgroundColor: parseColor(
-      parsed.editorBackgroundColor,
-      "editorBackgroundColor",
-      errors
-    ),
-    editorForegroundColor: parseColor(
-      parsed.editorForegroundColor,
-      "editorForegroundColor",
-      errors
-    ),
-    textmode: parseOptionalBoolean(parsed.textmode, "textmode", errors),
-    showKeyboardOnFocus: parseKeyboardFocusMode(
-      parsed.showKeyboardOnFocus,
-      "showKeyboardOnFocus",
-      errors
-    ),
-    keyboardType: parseEnum<GeoGebraKeyboardType>(
-      parsed.keyboardType,
-      KEYBOARD_TYPES,
-      "keyboardType",
-      errors
-    ),
-    detachKeyboard: parseDetachKeyboardMode(parsed.detachKeyboard, "detachKeyboard", errors),
-    detachedKeyboardParent: parseOptionalString(
-      parsed.detachedKeyboardParent,
-      "detachedKeyboardParent",
-      errors
-    ),
+    enable3d:
+      parseOptionalBoolean(parsed.enable3d, "enable3d", errors) ??
+      defaults.defaultEnable3d,
+    enableCAS:
+      parseOptionalBoolean(parsed.enableCAS, "enableCAS", errors) ??
+      defaults.defaultEnableCAS,
+    editorBackgroundColor:
+      parseColor(parsed.editorBackgroundColor, "editorBackgroundColor", errors) ??
+      (defaults.defaultEditorBackgroundColor ? defaults.defaultEditorBackgroundColor : undefined),
+    editorForegroundColor:
+      parseColor(parsed.editorForegroundColor, "editorForegroundColor", errors) ??
+      (defaults.defaultEditorForegroundColor ? defaults.defaultEditorForegroundColor : undefined),
+    textmode:
+      parseOptionalBoolean(parsed.textmode, "textmode", errors) ??
+      defaults.defaultTextmode,
+    showKeyboardOnFocus:
+      parseKeyboardFocusMode(parsed.showKeyboardOnFocus, "showKeyboardOnFocus", errors) ??
+      defaults.defaultShowKeyboardOnFocus,
+    keyboardType:
+      parseEnum<GeoGebraKeyboardType>(parsed.keyboardType, KEYBOARD_TYPES, "keyboardType", errors) ??
+      defaults.defaultKeyboardType,
+    detachKeyboard:
+      parseDetachKeyboardMode(parsed.detachKeyboard, "detachKeyboard", errors) ??
+      defaults.defaultDetachKeyboard,
+    detachedKeyboardParent:
+      parseOptionalString(parsed.detachedKeyboardParent, "detachedKeyboardParent", errors) ??
+      (defaults.defaultDetachedKeyboardParent ? defaults.defaultDetachedKeyboardParent : undefined),
 
     // Execution & Content
     commands: parseCommands(parsed.commands, errors),

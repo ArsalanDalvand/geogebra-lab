@@ -17,6 +17,7 @@
     #ggb-element {
       width: 100%;
       height: 100%;
+      box-sizing: border-box;
     }
 
     .status {
@@ -27,7 +28,7 @@
       align-items: center;
       justify-content: center;
       padding: 1rem;
-      color: #444;
+      color: #777;
       font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       text-align: center;
     }
@@ -39,7 +40,7 @@
 </head>
 <body>
   <div id="ggb-element">
-    <div class="status">Loading GeoGebra...</div>
+    <div id="loading-status" class="status">Loading GeoGebra...</div>
   </div>
 
   <script>
@@ -55,7 +56,20 @@
         return;
       }
 
-      var config = normalizeConfig(payload.config || {});
+      var config = payload.config || {};
+      var loadingEl = document.getElementById("loading-status");
+      if (loadingEl && config.loadingText) {
+        loadingEl.textContent = config.loadingText;
+      }
+
+      if (config.borderRadius) {
+        document.getElementById("ggb-element").style.borderRadius = config.borderRadius + "px";
+        document.getElementById("ggb-element").style.overflow = "hidden";
+      }
+      if (config.borderColor) {
+        document.getElementById("ggb-element").style.border = "1px solid " + config.borderColor;
+      }
+
       window.__geogebraLabViewerInjectApplet = function () {
         injectApplet(config);
       };
@@ -72,61 +86,34 @@
         }
       }
 
-      function normalizeConfig(input) {
-        var appName = ["graphing", "geometry", "3d", "classic"].indexOf(input.appName) >= 0
-          ? input.appName
-          : "graphing";
-
-        return {
-          appName: appName,
-          width: positiveInteger(input.width, Math.max(1, window.innerWidth || 800)),
-          height: positiveInteger(input.height, Math.max(1, window.innerHeight || 500)),
-          showToolBar: input.showToolBar === true,
-          showAlgebraInput: input.showAlgebraInput !== false,
-          showMenuBar: input.showMenuBar === true,
-          materialId: typeof input.materialId === "string" ? input.materialId : undefined,
-          filename: typeof input.filename === "string" ? input.filename : undefined,
-          commands: Array.isArray(input.commands)
-            ? input.commands.filter(function (command) { return typeof command === "string"; })
-            : []
-        };
-      }
-
-      function positiveInteger(value, fallback) {
-        var numberValue = Number(value);
-        if (Number.isFinite(numberValue) && numberValue > 0) {
-          return Math.round(numberValue);
-        }
-        return fallback;
-      }
-
-      function injectApplet(config) {
+      function injectApplet(cfg) {
         if (typeof window.GGBApplet !== "function") {
           showError("GeoGebra script loaded, but GGBApplet was not available.");
           reportError("GeoGebra script loaded, but GGBApplet was not available.");
           return;
         }
 
-        var params = {
-          id: blockId + "-applet",
-          appName: config.appName,
-          width: Math.max(1, Math.floor(window.innerWidth || config.width)),
-          height: Math.max(1, Math.floor(window.innerHeight || config.height)),
-          showToolBar: config.showToolBar,
-          showAlgebraInput: config.showAlgebraInput,
-          showMenuBar: config.showMenuBar,
-          appletOnLoad: function (api) {
-            runCommands(api, config.commands);
-          }
+        var params = Object.assign({}, cfg);
+        delete params.commands;
+        delete params.caption;
+        delete params.explain;
+        delete params.loadingText;
+
+        params.id = blockId + "-applet";
+        params.appName = cfg.appName || "graphing";
+
+        if (!cfg.scaleContainerClass) {
+          params.width = Math.max(1, Math.floor(window.innerWidth || cfg.width || 800));
+          params.height = Math.max(1, Math.floor(window.innerHeight || cfg.height || 500));
+        }
+
+        if (cfg.materialId) {
+          params.material_id = cfg.materialId;
+        }
+
+        params.appletOnLoad = function (api) {
+          runCommands(api, cfg.commands || []);
         };
-
-        if (config.materialId) {
-          params.material_id = config.materialId;
-        }
-
-        if (config.filename) {
-          params.filename = config.filename;
-        }
 
         try {
           var applet = new window.GGBApplet(params, true);
@@ -176,13 +163,21 @@
       function errorMessage(error) {
         return error && error.message ? error.message : String(error);
       }
+
+      var scriptUrl = (payload && payload.geogebraScriptUrl) || "https://www.geogebra.org/apps/deployggb.js";
+      var scriptTag = document.createElement("script");
+      scriptTag.src = scriptUrl;
+      scriptTag.onload = function () {
+        if (typeof window.__geogebraLabViewerInjectApplet === "function") {
+          window.__geogebraLabViewerInjectApplet();
+        }
+      };
+      scriptTag.onerror = function () {
+        showError("Failed to load GeoGebra deployment script from: " + scriptUrl);
+        reportError("Failed to load GeoGebra deployment script from: " + scriptUrl);
+      };
+      document.body.appendChild(scriptTag);
     })();
-  </script>
-  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
-  <script>
-    if (typeof window.__geogebraLabViewerInjectApplet === "function") {
-      window.__geogebraLabViewerInjectApplet();
-    }
   </script>
 </body>
 </html>

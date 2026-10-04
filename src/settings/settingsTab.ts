@@ -110,6 +110,91 @@ export class GeoGebraLabSettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
+      .setName("Default language")
+      .setDesc("ISO language code (e.g., 'en', 'fa', 'de', 'fr', 'es'). Leave empty for browser default.")
+      .addText((text) => {
+        text.setPlaceholder("en");
+        text.setValue(this.plugin.settings.defaultLanguage);
+        text.onChange(async (value) => {
+          this.plugin.settings.defaultLanguage = value.trim();
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Default loading text")
+      .setDesc("Placeholder text displayed while the applet initializes.")
+      .addText((text) => {
+        text.setPlaceholder("Loading GeoGebra...");
+        text.setValue(this.plugin.settings.defaultLoadingText);
+        text.onChange(async (value) => {
+          this.plugin.settings.defaultLoadingText = value.trim() || "Loading GeoGebra...";
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Transparent graphics by default")
+      .setDesc("Make the GeoGebra graphics view background transparent.")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultTransparentGraphics);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultTransparentGraphics = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Show reset icon by default")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultShowResetIcon);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultShowResetIcon = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Show fullscreen button by default")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultShowFullscreenButton);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultShowFullscreenButton = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Show zoom buttons by default")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultShowZoomButtons);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultShowZoomButtons = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Enable right-click by default")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultEnableRightClick);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultEnableRightClick = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
+      .setName("Enable shift-drag zoom by default")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.settings.defaultEnableShiftDragZoom);
+        toggle.onChange(async (value) => {
+          this.plugin.settings.defaultEnableShiftDragZoom = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    new Setting(containerEl)
       .setName("GeoGebra script URL")
       .setDesc("The online deployggb.js URL used by srcdoc mode and passed to the external viewer.")
       .addText((text) => {

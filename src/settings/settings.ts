@@ -8,6 +8,16 @@ export interface GeoGebraLabSettings extends GeoGebraParserDefaults {
   viewerUrl: string;
   enableCaption: boolean;
   enableExplain: boolean;
+  defaultLanguage: string;
+  defaultLoadingText: string;
+  defaultTransparentGraphics: boolean;
+  defaultShowResetIcon: boolean;
+  defaultShowFullscreenButton: boolean;
+  defaultShowZoomButtons: boolean;
+  defaultEnableRightClick: boolean;
+  defaultEnableLabelDrags: boolean;
+  defaultEnableShiftDragZoom: boolean;
+  defaultPreventFocus: boolean;
 }
 
 export const DEFAULT_SETTINGS: GeoGebraLabSettings = {
@@ -21,14 +31,28 @@ export const DEFAULT_SETTINGS: GeoGebraLabSettings = {
   geogebraScriptUrl: "https://www.geogebra.org/apps/deployggb.js",
   viewerUrl: "",
   enableCaption: true,
-  enableExplain: true
+  enableExplain: true,
+  defaultLanguage: "",
+  defaultLoadingText: "Loading GeoGebra...",
+  defaultTransparentGraphics: false,
+  defaultShowResetIcon: false,
+  defaultShowFullscreenButton: false,
+  defaultShowZoomButtons: false,
+  defaultEnableRightClick: true,
+  defaultEnableLabelDrags: true,
+  defaultEnableShiftDragZoom: true,
+  defaultPreventFocus: false
 };
 
 export const APP_NAME_OPTIONS: Record<GeoGebraAppName, string> = {
-  graphing: "Graphing",
+  graphing: "Graphing Calculator",
   geometry: "Geometry",
-  "3d": "3D",
-  classic: "Classic"
+  "3d": "3D Calculator",
+  classic: "Classic",
+  suite: "Calculator Suite",
+  evaluator: "Evaluator",
+  scientific: "Scientific Calculator",
+  notes: "GeoGebra Notes"
 };
 
 export const RENDER_MODE_OPTIONS: Record<GeoGebraRenderMode, string> = {

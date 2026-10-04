@@ -40,8 +40,12 @@ explain:
 
 - Use `appName: graphing` for functions, calculus, limits, derivatives, inverse functions.
 - Use `appName: geometry` for points, segments, triangles, circles, geometric constructions.
-- Use `appName: 3d` only when 3D is necessary.
-- Use `appName: classic` for mixed algebra and geometry.
+- Use `appName: 3d` for 3D surfaces, vectors, spheres, and spatial geometry.
+- Use `appName: classic` for mixed algebra and geometry or legacy .ggb files.
+- Use `appName: suite` for the unified GeoGebra Calculator Suite.
+- Use `appName: scientific` for scientific calculations and evaluations.
+- Use `appName: notes` for interactive math whiteboards.
+- Use `appName: evaluator` for single-expression evaluation.
 
 ## Rules
 
@@ -77,11 +81,11 @@ Always output a complete Markdown fenced code block using ```geogebra.
 Inside the block, write YAML only.
 Do not output iframe HTML, script tags, JavaScript, or custom loader code.
 
-Use appName: graphing for functions and calculus.
-Use appName: geometry for geometric constructions.
+Use appName: graphing for functions and calculus (or geometry, 3d, classic, suite, scientific, notes, evaluator).
 Use commands as an array of GeoGebra command strings.
 Use caption for a short visible description.
 Use explain for short teaching notes.
+Optional controls: language, loadingText, transparentGraphics, showResetIcon, showFullscreenButton, showZoomButtons, showToolBar, filename (local .ggb vault file or remote URL), materialId.
 Keep commands simple, editable, and reviewable.
 ```
 

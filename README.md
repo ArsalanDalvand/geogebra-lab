@@ -4,30 +4,38 @@
 
 GeoGebra Lab is an Obsidian plugin for embedding interactive GeoGebra diagrams from safe, structured Markdown code blocks.
 
-It is designed for notes, teaching material, and AI Agent workflows: Agents generate YAML, while the plugin owns the iframe and GeoGebra JavaScript integration.
+It is designed for notes, research, teaching material, and AI Agent workflows: Agents generate YAML, while the plugin owns the iframe, sandboxing, and complete GeoGebra JavaScript integration.
 
-## Current Status
+## Key Features
 
-This is an MVP implementation.
-
-- GeoGebra is loaded online from `https://www.geogebra.org/apps/deployggb.js`.
-- Raw JavaScript inside `geogebra` code blocks is not supported.
-- Agents should generate YAML structures, not iframe HTML.
-- If the network cannot access GeoGebra, diagrams may fail to load.
-- If Obsidian CSP blocks GeoGebra CSS or related resources in `srcdoc` mode, use Local viewer server or External viewer mode.
-- Offline GeoGebra bundles are intentionally not included in this version.
+- **Full GeoGebra API Coverage:** Over 40 official GeoGebra parameters are configurable via YAML — zero hardcoding.
+- **Support for All 8 Official Apps:** Graphing Calculator, Geometry, 3D Calculator, Classic, Calculator Suite, Evaluator, Scientific, and GeoGebra Notes.
+- **Native Obsidian Vault Attachment Resolution:** Reference `.ggb` files directly in your vault (`filename: "model.ggb"` or `filename: "[[model.ggb]]"`). They are automatically read and embedded as base64.
+- **Flexible UI Customization:** Configurable loading text, transparent graphics, border styling, custom toolbars, language selection, and interactive controls.
+- **Zero Raw JS Execution:** Safe, sandboxed rendering through `srcdoc`, local viewer server, or hosted external viewer without exposing your vault to arbitrary code execution.
 
 ## Installation
 
-1. Run `npm install`.
-2. Run `npm run build`.
-3. Copy the plugin folder into your vault:
+1. Clone or download this repository.
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Build the plugin:
+
+```bash
+npm run build
+```
+
+4. Copy the plugin folder into your vault:
 
 ```text
 YourVault/.obsidian/plugins/geogebra-lab/
 ```
 
-4. Ensure these files are present in that folder:
+5. Ensure these files are present:
 
 ```text
 main.js
@@ -35,343 +43,204 @@ manifest.json
 styles.css
 ```
 
-5. Open Obsidian settings.
-6. Disable Safe mode if needed.
-7. Enable the `GeoGebra Lab` community plugin.
+6. Open Obsidian Settings -> Community plugins -> Enable **GeoGebra Lab**.
 
-For development, run:
+For development with hot reload:
 
 ```bash
 npm run dev
 ```
 
+Run tests:
+
+```bash
+npm test
+```
+
 ## Render Modes And CSP
 
-Obsidian's Content Security Policy can block CSS or related resources that GeoGebra loads dynamically inside a `srcdoc` iframe. When that happens, the GeoGebra script may load but the applet can appear broken or unstyled.
+Obsidian's Content Security Policy (CSP) can restrict resources that GeoGebra loads dynamically inside a `srcdoc` iframe.
 
-GeoGebra Lab supports three render modes:
+GeoGebra Lab provides three render modes:
 
 | Mode | Use case |
 | --- | --- |
-| `Local viewer server` | Recommended for Obsidian desktop. Starts a temporary `127.0.0.1` viewer server automatically, with no deployment needed. |
-| `External viewer iframe` | Recommended for mobile, synced vaults, teams, or users who prefer a stable hosted viewer URL. |
-| `srcdoc iframe` | Simplest fallback. Works only when Obsidian CSP allows the resources GeoGebra needs. |
+| `Local viewer server` | **Recommended for Obsidian desktop.** Automatically spins up a temporary `127.0.0.1` viewer server on a random free port. Zero configuration required. |
+| `External viewer iframe` | **Recommended for mobile, synced vaults, or teams.** Points to a hosted static viewer URL (e.g., `https://geobsidian.vercel.app/` or your own deployment of `viewer/index.html`). |
+| `srcdoc iframe` | Lightweight fallback. Works when Obsidian's CSP permits direct loading. |
 
-The Markdown syntax stays exactly the same in all modes.
+The YAML syntax stays identical across all modes.
 
-### Local Viewer Server
+## Code Block Syntax & Examples
 
-Local viewer server mode starts an HTTP server bound to `127.0.0.1` on a random free port when a GeoGebra block is rendered.
-
-The iframe points to a URL like:
-
-```text
-http://127.0.0.1:39217/viewer#encoded-config
-```
-
-This keeps GeoGebra out of Obsidian's `srcdoc` CSP path without requiring you to deploy anything.
-
-Notes:
-
-- Local viewer server mode is desktop-only.
-- The server is bound to `127.0.0.1`, not a public network interface.
-- The server stops when the plugin unloads.
-- If the local server cannot start, the error is shown in the note.
-
-### External Viewer With Vercel
-
-External viewer mode loads GeoGebra from a standalone HTTPS page instead of an Obsidian `srcdoc` document. It is useful when local server mode is unavailable or when you want the same viewer URL across devices.
-
-You can use the hosted viewer maintained by this project:
-
-```text
-https://geobsidian.vercel.app/
-```
-
-Set `External viewer URL` to the URL above if you do not want to deploy your own viewer.
-
-You can deploy this file to Vercel:
-
-```text
-viewer/index.html
-```
-
-The simplest Vercel flow:
-
-1. Create a new Vercel project.
-2. Use the `viewer/` directory as the project root.
-3. Deploy it as a static site.
-4. Copy the deployed HTTPS URL.
-
-After deployment, copy the page URL, for example:
-
-```text
-https://your-domain.example/geogebra-lab-viewer/
-```
-
-Then in Obsidian:
-
-1. Open GeoGebra Lab settings.
-2. Set `Render mode` to `External viewer iframe`.
-3. Set `External viewer URL` to the deployed viewer URL.
-4. Reload the note.
-
-The plugin sends the GeoGebra block config to the viewer through the iframe URL hash. URL hashes are not sent to the hosting server in normal browser requests, but they are visible in the local browser/webview.
-
-Other hosting options include GitHub Pages, Cloudflare Pages, Netlify, or an internal HTTPS static server.
-
-## Usage
-
-Write a fenced Markdown code block using the `geogebra` language:
+Write a fenced code block using the `geogebra` language tag:
 
 ````markdown
 ```geogebra
-appName: graphing
+appName: suite
 width: 800
 height: 500
-showToolBar: false
-showAlgebraInput: true
-showMenuBar: false
+language: fa
+loadingText: "در حال بارگذاری هندسه پویا..."
+transparentGraphics: true
+showToolBar: true
+showResetIcon: true
 
 commands:
-  - "f(x)=e^x"
-  - "g(x)=1+x"
-  - "A=(0,1)"
+  - "f(x)=sin(x)"
+  - "g(x)=cos(x)"
+  - "P=Intersect(f, g, 1)"
 
-caption: "Exponential function and linear approximation near 0."
+caption: "بررسی تقاطع توابع مثلثاتی"
 explain:
-  - "This helps explain why e^x is close to 1+x near x=0."
-  - "It also supports lim_{x->0}(e^x-1)/x=1."
+  - "تابع سینوس و کسینوس در نقاط پیوسته متقاطع هستند."
 ```
 ````
 
-The plugin renders the block as a sandboxed iframe containing a GeoGebra applet.
+### Using Local `.ggb` Vault Attachments
 
-## Code Block Syntax
+You can embed `.ggb` files directly from your Obsidian vault:
 
-```yaml
-appName: graphing
+````markdown
+```geogebra
+appName: classic
+filename: "physics-pendulum.ggb"
 width: 800
-height: 500
-showToolBar: false
-showAlgebraInput: true
-showMenuBar: false
-materialId:
-filename:
-commands:
-  - "f(x)=e^x"
-caption:
-explain:
-  - ""
+height: 600
+showResetIcon: true
+caption: "شبیه‌سازی آونگ فیزیکی"
 ```
+````
 
-## Fields
+Obsidian link syntax (`filename: "[[physics-pendulum.ggb]]"`) is also fully supported. The file is read from the vault and encoded to `ggbBase64` at render time.
+
+## Comprehensive YAML Reference (40+ Parameters)
+
+All parameters below can be configured directly inside your `geogebra` code block:
+
+### 1. App & Content Selection
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appName` | `graphing`, `geometry`, `3d`, `classic` | `graphing` | GeoGebra app type. |
-| `width` | number | `800` | Requested applet width. The iframe will not exceed the note container width. |
+| `appName` | string | `graphing` | App type: `graphing`, `geometry`, `3d`, `classic`, `suite`, `evaluator`, `scientific`, `notes`. |
+| `materialId` | string | none | GeoGebra Materials ID (e.g. `m9w5xvyz`) to load directly from geogebra.org. |
+| `filename` | string | none | Local `.ggb` vault file (e.g. `diagram.ggb` or `[[diagram.ggb]]`) or remote file URL. |
+| `ggbBase64` | string | none | Base64-encoded string containing a complete `.ggb` construction. |
+| `perspective` | string | none | Layout perspective string (e.g., `"AG"` for Algebra + Graphics, `"G"` for Graphics only, `"3D"`). |
+
+### 2. Sizing & Layout Styling
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `width` | number | `800` | Applet width in pixels. Responsive within note container. |
 | `height` | number | `500` | Applet height in pixels. |
-| `showToolBar` | boolean | `false` | Shows the GeoGebra toolbar. |
-| `showAlgebraInput` | boolean | `true` | Shows the algebra input. |
-| `showMenuBar` | boolean | `false` | Shows the menu bar. |
-| `materialId` | string | none | Optional GeoGebra material ID. |
-| `filename` | string | none | Optional `.ggb` filename or URL accepted by GeoGebra. Obsidian attachment resolution is not yet implemented. |
-| `commands` | string array | `[]` | GeoGebra commands executed after the applet loads. |
-| `caption` | string | none | Caption shown under the iframe. |
-| `explain` | string array | `[]` | Teaching notes shown under the caption. |
+| `scale` | number | `1` | Scaling factor for the entire applet (between `0.1` and `10`). |
+| `autoHeight` | boolean | `false` | Dynamically adjust height to content if supported. |
+| `allowUpscale` | boolean | `false` | Allow scaling up beyond original dimensions on high-DPI displays. |
+| `scaleContainerClass` | string | none | CSS selector for container resizing. |
+| `borderColor` | string | none | CSS border color (e.g., `#e0e0e0`, `transparent`). |
+| `borderRadius` | number | `0` | Corner border radius in pixels. |
+| `transparentGraphics` | boolean | `false` | Sets transparent background for the graphics view. |
 
-Unknown fields are ignored with a warning.
+### 3. Toolbars & Menus
 
-## Examples
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `showToolBar` | boolean | `false` | Show or hide the top toolbar. |
+| `showToolBarHelp` | boolean | `false` | Show tool guidance tooltip when selecting tools. |
+| `customToolBar` | string | none | Custom GeoGebra tool IDs string (e.g., `"0 | 1 501 5 19 | 2 15 45"`). |
+| `customToolbox` | string | none | Custom toolbox definition. |
+| `showAlgebraInput` | boolean | `true` | Show or hide the input bar. |
+| `algebraInputPosition` | string | `algebra` | Position of input bar: `algebra`, `top`, or `bottom`. |
+| `showMenuBar` | boolean | `false` | Show or hide the top menu bar. |
+| `allowStyleBar` | boolean | `false` | Allow or restrict the quick style bar. |
+| `enableUndoRedo` | boolean | `true` | Enable or disable undo/redo buttons. |
 
-### Exponential Approximation
+### 4. UI Controls & Buttons
 
-````markdown
-```geogebra
-appName: graphing
-width: 800
-height: 500
-commands:
-  - "f(x)=e^x"
-  - "g(x)=1+x"
-caption: "Compare e^x and 1+x near x=0."
-explain:
-  - "This helps explain why lim_{x->0}(e^x-1)/x=1."
-```
-````
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `showZoomButtons` | boolean | `false` | Show bottom-right zoom in/out controls. |
+| `showFullscreenButton` | boolean | `false` | Show full-screen toggle button. |
+| `showAnimationButton` | boolean | `true` | Show play/pause button for animated variables. |
+| `showResetIcon` | boolean | `false` | Show reset diagram button in upper-right corner. |
+| `showSuggestionButtons` | boolean | `true` | Show suggestion buttons in input views. |
+| `showStartTooltip` | boolean | `false` | Show initial help tooltip on applet launch. |
+| `playButton` | boolean | `false` | Show large initial play button before loading. |
+| `buttonRounding` | number | none | Relative button corner rounding (`0` to `0.9`). |
+| `buttonShadows` | boolean | none | Enable drop shadows on applet buttons. |
+| `buttonBorderColor` | string | none | Border color for applet buttons. |
 
-### Geometry
+### 5. Interactivity & Security
 
-````markdown
-```geogebra
-appName: geometry
-width: 800
-height: 500
-showToolBar: true
-commands:
-  - "A=(0,0)"
-  - "B=(4,0)"
-  - "C=(2,3)"
-  - "Polygon(A,B,C)"
-caption: "Dynamic triangle example."
-explain:
-  - "Drag points A, B, C to change the triangle."
-```
-````
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `enableRightClick` | boolean | `true` | Enable right-click context menu on objects. |
+| `enableLabelDrags` | boolean | `true` | Allow dragging text labels in graphics view. |
+| `enableShiftDragZoom` | boolean | `true` | Allow zooming and panning using Shift + drag. |
+| `capturingThreshold` | number | `3` | Snapping radius in pixels for points and grid. |
+| `preventFocus` | boolean | `false` | Prevent applet from taking browser focus on load. |
+| `enableFileFeatures` | boolean | `false` | Allow file saving/opening within the applet. |
+| `disableJavaScript` | boolean | `false` | Disables internal JavaScript execution in GeoGebra. |
 
-More examples are in the `examples/` folder.
+### 6. Localization & Mathematics
 
-## Commands
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `language` | string | none | ISO language code (e.g., `fa`, `en`, `de`, `fr`, `es`). |
+| `country` | string | none | ISO country code. |
+| `rounding` | string | none | Decimal or significant figure precision (e.g. `"2"`, `"5s"`). |
+| `randomSeed` | number | none | Fixed seed for reproducible random numbers. |
+| `randomize` | boolean | `false` | Force recalculation of random values on reload. |
+| `errorDialogsActive` | boolean | `false` | Show GUI modal dialogs when mathematical errors occur. |
+| `showLogging` | boolean | `false` | Print internal GeoGebra logs to browser console. |
 
-GeoGebra Lab adds two command palette commands:
+### 7. Exam & Evaluator
 
-- `Insert GeoGebra graph block`
-- `Insert GeoGebra geometry block`
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `enable3d` | boolean | `true` | Enable 3D engine in supported apps. |
+| `enableCAS` | boolean | `true` | Enable Computer Algebra System engine. |
+| `editorBackgroundColor` | string | none | Background color for equation editor. |
+| `editorForegroundColor` | string | none | Text color for equation editor. |
+| `textmode` | boolean | `false` | Text-only input mode. |
+| `keyboardType` | string | `normal` | Virtual keyboard layout: `normal`, `scientific`, `notes`. |
+| `showKeyboardOnFocus` | boolean / `auto` | `auto` | Show virtual on-screen keyboard when input is focused. |
+| `detachKeyboard` | boolean / `auto` | `auto` | Detach virtual keyboard into a floating container. |
 
-Both insert editable Markdown templates at the current cursor position.
+### 8. Commands & Presentation
 
-## Settings
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `commands` | string array | `[]` | List of GeoGebra commands executed after applet initialization. |
+| `loadingText` | string | `Loading GeoGebra...` | Custom placeholder text shown while the applet is booting. |
+| `caption` | string | none | Descriptive caption rendered underneath the diagram. |
+| `explain` | string array | `[]` | Bulleted teaching notes or insights rendered below the caption. |
 
-The settings tab supports:
+## Settings Tab
 
-- render mode;
-- default app type;
-- default width and height;
-- default toolbar, algebra input, and menu bar visibility;
-- GeoGebra script URL;
-- external viewer URL;
-- caption rendering;
-- explanation rendering.
+In Obsidian Settings -> **GeoGebra Lab**, you can configure defaults for:
 
-## Agent Usage
+- Render mode (`Local viewer server`, `External viewer iframe`, or `srcdoc iframe`)
+- Default app type (`graphing`, `geometry`, `3d`, `classic`, `suite`, etc.)
+- Default width and height
+- Default language and custom loading text
+- Default toggles: Transparent graphics, reset icon, zoom controls, fullscreen button, right-click, shift-drag zoom
+- Custom GeoGebra deployment script URL
+- External viewer URL
 
-AI Agents inside Obsidian should create and edit only structured `geogebra` YAML blocks.
+## AI Agent Integration
 
-Agents should not output:
+AI Agents (such as Claude Code, Copilot, or Obsidian Agents) should output structured YAML code blocks rather than HTML or JavaScript.
 
-- raw iframe HTML;
-- raw JavaScript;
-- inline `<script>` tags;
-- custom GeoGebra loader code.
-
-The plugin is the renderer. The Agent's job is only to write safe Markdown like this:
-
-````markdown
-```geogebra
-appName: graphing
-width: 800
-height: 500
-commands:
-  - "f(x)=e^x"
-  - "g(x)=1+x"
-caption: "Compare e^x with its linear approximation near x=0."
-explain:
-  - "This diagram helps explain why e^x is close to 1+x near x=0."
-```
-````
-
-When revising an existing diagram, the Agent should preserve the fenced code block and update only the YAML fields needed for the requested change.
-
-Recommended instructions for an Obsidian Agent:
+Recommended Agent instructions:
 
 ```text
-When creating GeoGebra diagrams in this vault, use the GeoGebra Lab plugin syntax.
-
-Always output a complete Markdown fenced code block using ```geogebra.
-Inside the block, write YAML only.
-Do not output iframe HTML, script tags, JavaScript, or custom loader code.
-
-Use these fields when needed:
-- appName: graphing | geometry | 3d | classic
-- width: number
-- height: number
-- showToolBar: true | false
-- showAlgebraInput: true | false
-- showMenuBar: true | false
-- materialId: optional GeoGebra material ID
-- filename: optional GeoGebra filename or URL
-- commands: array of GeoGebra command strings
-- caption: short description
-- explain: array of short teaching notes
-
-Prefer appName: graphing for functions, limits, derivatives, integrals, and inverse functions.
-Prefer appName: geometry for points, segments, polygons, circles, and constructions.
-Keep commands simple and editable.
-Use object names such as A, B, C, f, g, h.
-If a GeoGebra command may be invalid, say it needs review instead of inventing JavaScript.
+When generating mathematical diagrams in Obsidian, output a ```geogebra fenced code block.
+Configure all visual parameters via YAML (appName, commands, width, height, caption, explain, language, etc.).
+Do not output raw HTML, iframe tags, or JavaScript code.
 ```
 
-Example user request to an Agent:
+## Security
 
-```text
-Create a `geogebra` code block for GeoGebra Lab that shows y=x^2, its tangent line at x=1, and a point of tangency. Use graphing mode and include a short explanation.
-```
-
-Expected Agent output:
-
-````markdown
-```geogebra
-appName: graphing
-width: 800
-height: 500
-commands:
-  - "f(x)=x^2"
-  - "A=(1,1)"
-  - "g(x)=2x-1"
-caption: "Tangent line to y=x^2 at x=1."
-explain:
-  - "The derivative of x^2 at x=1 is 2, so the tangent line has slope 2."
-```
-````
-
-The included Agent Skill at `skills/geogebra-lab/SKILL.md` documents the recommended syntax and rules.
-
-## Safety
-
-GeoGebra Lab does not execute arbitrary JavaScript from Markdown code blocks.
-
-The plugin:
-
-- parses YAML;
-- validates known fields;
-- passes `commands` as strings to GeoGebra's `api.evalCommand`;
-- renders GeoGebra in `srcdoc`, local viewer server, or external viewer mode;
-- keeps the external GeoGebra script URL in plugin settings;
-- keeps the external viewer URL in plugin settings;
-- reports parser and runtime errors in the Obsidian page.
-
-The iframe uses:
-
-```html
-sandbox="allow-scripts allow-same-origin"
-```
-
-GeoGebra needs script execution to run. `allow-same-origin` may be required for GeoGebra internals, so this is still an iframe isolation boundary but not a complete browser security wall.
-
-For Local viewer server and External viewer mode, GeoGebra Lab validates `postMessage` errors by both iframe window and viewer origin before displaying them in the note.
-
-## Known Limitations
-
-- Online access to GeoGebra is required.
-- Offline GeoGebra bundles are not included.
-- Local viewer server mode is desktop-only.
-- External viewer mode requires an HTTP or HTTPS viewer URL. You can use `https://geobsidian.vercel.app/` or host `viewer/index.html` yourself.
-- Large constructions may make the iframe URL hash long in Local viewer server or External viewer mode.
-- `.ggb` attachment path resolution is not implemented.
-- Command validity is checked only at runtime by GeoGebra.
-- `api.evalCommand` may not report every invalid command consistently.
-- The plugin does not yet save or restore edited applet state.
-
-## Roadmap
-
-- Support saving current applet state as base64.
-- Support `getXML()` and `setXML()`.
-- Support `.ggb` file attachment loading.
-- Support local offline GeoGebra bundles.
-- Support PNG and SVG export.
-- Support postMessage APIs for richer iframe communication.
-- Add a button to copy the current construction.
-- Let Agents generate GeoGebra blocks from selected text.
-- Add code block syntax validation.
-- Add more teaching templates.
+GeoGebra Lab strictly parses YAML structures and renders the applet inside an iframe with sandbox attributes `allow-scripts allow-same-origin`. Commands are passed exclusively to GeoGebra's `api.evalCommand()` and no user-supplied JavaScript is evaluated in Obsidian's main window.

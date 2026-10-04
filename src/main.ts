@@ -3,9 +3,11 @@ import {
   MarkdownRenderChild,
   Notice,
   Platform,
-  Plugin
+  Plugin,
+  TFile
 } from "obsidian";
 import { parseGeoGebraBlock } from "./parser/parseGeoGebraBlock";
+import { GEO_GEBRA_APP_NAME_SET, GeoGebraAppName } from "./parser/types";
 import { buildExternalViewerIframe } from "./renderer/buildExternalViewerIframe";
 import { buildIframe } from "./renderer/buildIframe";
 import { LocalViewerServer } from "./server/localViewerServer";
@@ -60,11 +62,8 @@ function normalizeSettings(data: unknown): GeoGebraLabSettings {
 
   return {
     defaultAppName:
-      data.defaultAppName === "graphing" ||
-      data.defaultAppName === "geometry" ||
-      data.defaultAppName === "3d" ||
-      data.defaultAppName === "classic"
-        ? data.defaultAppName
+      typeof data.defaultAppName === "string" && GEO_GEBRA_APP_NAME_SET.has(data.defaultAppName)
+        ? (data.defaultAppName as GeoGebraAppName)
         : DEFAULT_SETTINGS.defaultAppName,
     defaultWidth: readNumber(data.defaultWidth, DEFAULT_SETTINGS.defaultWidth),
     defaultHeight: readNumber(data.defaultHeight, DEFAULT_SETTINGS.defaultHeight),
@@ -84,7 +83,41 @@ function normalizeSettings(data: unknown): GeoGebraLabSettings {
     geogebraScriptUrl: readString(data.geogebraScriptUrl, DEFAULT_SETTINGS.geogebraScriptUrl),
     viewerUrl: readString(data.viewerUrl, DEFAULT_SETTINGS.viewerUrl),
     enableCaption: readBoolean(data.enableCaption, DEFAULT_SETTINGS.enableCaption),
-    enableExplain: readBoolean(data.enableExplain, DEFAULT_SETTINGS.enableExplain)
+    enableExplain: readBoolean(data.enableExplain, DEFAULT_SETTINGS.enableExplain),
+    defaultLanguage: readString(data.defaultLanguage, DEFAULT_SETTINGS.defaultLanguage),
+    defaultLoadingText: readString(data.defaultLoadingText, DEFAULT_SETTINGS.defaultLoadingText),
+    defaultTransparentGraphics: readBoolean(
+      data.defaultTransparentGraphics,
+      DEFAULT_SETTINGS.defaultTransparentGraphics
+    ),
+    defaultShowResetIcon: readBoolean(
+      data.defaultShowResetIcon,
+      DEFAULT_SETTINGS.defaultShowResetIcon
+    ),
+    defaultShowFullscreenButton: readBoolean(
+      data.defaultShowFullscreenButton,
+      DEFAULT_SETTINGS.defaultShowFullscreenButton
+    ),
+    defaultShowZoomButtons: readBoolean(
+      data.defaultShowZoomButtons,
+      DEFAULT_SETTINGS.defaultShowZoomButtons
+    ),
+    defaultEnableRightClick: readBoolean(
+      data.defaultEnableRightClick,
+      DEFAULT_SETTINGS.defaultEnableRightClick
+    ),
+    defaultEnableLabelDrags: readBoolean(
+      data.defaultEnableLabelDrags,
+      DEFAULT_SETTINGS.defaultEnableLabelDrags
+    ),
+    defaultEnableShiftDragZoom: readBoolean(
+      data.defaultEnableShiftDragZoom,
+      DEFAULT_SETTINGS.defaultEnableShiftDragZoom
+    ),
+    defaultPreventFocus: readBoolean(
+      data.defaultPreventFocus,
+      DEFAULT_SETTINGS.defaultPreventFocus
+    )
   };
 }
 
@@ -207,6 +240,39 @@ export default class GeoGebraLabPlugin extends Plugin {
 
     if (!result.config) {
       return;
+    }
+
+    if (result.config.filename && !result.config.ggbBase64) {
+      const rawPath = result.config.filename.trim();
+      const isHttp = /^https?:\/\//i.test(rawPath);
+      if (!isHttp) {
+        const cleanPath = rawPath.replace(/^\[\[/, "").replace(/\]\]$/, "").trim();
+        const file =
+          this.app.metadataCache.getFirstLinkpathDest(cleanPath, ctx.sourcePath) ??
+          this.app.vault.getAbstractFileByPath(cleanPath);
+        if (file instanceof TFile) {
+          try {
+            const buffer = await this.app.vault.readBinary(file);
+            const bytes = new Uint8Array(buffer);
+            let binary = "";
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+              binary += String.fromCharCode(bytes[i]);
+            }
+            result.config.ggbBase64 = btoa(binary);
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            this.appendListMessage(errorEl, `Failed to load vault file "${cleanPath}": ${msg}`);
+            return;
+          }
+        } else {
+          const warningEl = container.createDiv({ cls: "geogebra-lab-warning" });
+          this.appendListMessage(
+            warningEl,
+            `Local file "${cleanPath}" was not found in vault. For external files, use a full URL.`
+          );
+        }
+      }
     }
 
     let viewerUrl = this.settings.viewerUrl;

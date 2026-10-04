@@ -1,5 +1,6 @@
 import { GeoGebraBlockConfig } from "../parser/types";
 import { escapeHtmlAttribute, safeJsonForScript, sanitizeScriptUrl } from "../utils/sanitize";
+import { buildAppletParams } from "./appletParamsBuilder";
 
 export interface BuildGeoGebraHTMLOptions {
   blockId: string;
@@ -9,28 +10,13 @@ export interface BuildGeoGebraHTMLOptions {
 
 export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
   const { blockId, config } = options;
-  const appletParams: Record<string, unknown> = {
-    id: `${blockId}-applet`,
-    appName: config.appName,
-    width: config.width,
-    height: config.height,
-    showToolBar: config.showToolBar,
-    showAlgebraInput: config.showAlgebraInput,
-    showMenuBar: config.showMenuBar
-  };
-
-  if (config.materialId) {
-    appletParams.material_id = config.materialId;
-  }
-
-  if (config.filename) {
-    appletParams.filename = config.filename;
-  }
+  const appletParams = buildAppletParams(blockId, config);
 
   const serializedBlockId = safeJsonForScript(blockId);
   const serializedParams = safeJsonForScript(appletParams);
   const serializedCommands = safeJsonForScript(config.commands);
   const scriptUrl = sanitizeScriptUrl(options.geogebraScriptUrl);
+  const loadingText = config.loadingText ?? "Loading GeoGebra...";
 
   return `<!doctype html>
 <html>
@@ -50,6 +36,9 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
     #ggb-element {
       width: 100%;
       height: 100%;
+      box-sizing: border-box;
+      ${config.borderRadius ? `border-radius: ${config.borderRadius}px; overflow: hidden;` : ""}
+      ${config.borderColor ? `border: 1px solid ${config.borderColor};` : ""}
     }
 
     .geogebra-lab-loading {
@@ -60,13 +49,13 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
       align-items: center;
       justify-content: center;
       padding: 1rem;
-      color: #555;
+      color: #777;
       font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
   </style>
 </head>
 <body>
-  <div id="ggb-element"><div class="geogebra-lab-loading">Loading GeoGebra...</div></div>
+  <div id="ggb-element"><div class="geogebra-lab-loading">${escapeHtmlAttribute(loadingText)}</div></div>
   <script>
     (function () {
       "use strict";
@@ -105,8 +94,11 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
           return;
         }
 
-        params.width = Math.max(1, Math.floor(window.innerWidth || params.width));
-        params.height = Math.max(1, Math.floor(window.innerHeight || params.height));
+        if (!params.scaleContainerClass) {
+          params.width = Math.max(1, Math.floor(window.innerWidth || params.width));
+          params.height = Math.max(1, Math.floor(window.innerHeight || params.height));
+        }
+
         params.appletOnLoad = function (api) {
           runCommands(api);
         };

@@ -6,16 +6,16 @@ import {
   Plugin,
   TFile
 } from "obsidian";
+import { CODE_BLOCK_ALIASES } from "./editor/codeBlockLanguages";
+import { registerSyntaxHighlighting } from "./editor/registerSyntaxHighlighting";
 import { parseGeoGebraBlock } from "./parser/parseGeoGebraBlock";
-import { GEO_GEBRA_APP_NAME_SET, GeoGebraAppName } from "./parser/types";
 import { buildExternalViewerIframe } from "./renderer/buildExternalViewerIframe";
 import { buildIframe } from "./renderer/buildIframe";
 import { LocalViewerServer } from "./server/localViewerServer";
+import { normalizeSettings } from "./settings/normalizeSettings";
 import { GeoGebraLabSettingTab } from "./settings/settingsTab";
 import {
-  DEFAULT_SETTINGS,
-  GeoGebraLabSettings,
-  GeoGebraRenderMode
+  GeoGebraLabSettings
 } from "./settings/settings";
 import { getUrlOrigin } from "./utils/sanitize";
 
@@ -30,95 +30,6 @@ interface GeoGebraFrameTarget {
   errorEl: HTMLElement;
   frameWindow: Window | null;
   allowedOrigin?: string;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readString(value: unknown, fallback: string): string {
-  return typeof value === "string" ? value : fallback;
-}
-
-function readNumber(value: unknown, fallback: number): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
-}
-
-function readBoolean(value: unknown, fallback: boolean): boolean {
-  return typeof value === "boolean" ? value : fallback;
-}
-
-function readRenderMode(value: unknown, fallback: GeoGebraRenderMode): GeoGebraRenderMode {
-  if (value === "srcdoc" || value === "localServer" || value === "externalViewer") {
-    return value;
-  }
-  return fallback;
-}
-
-function normalizeSettings(data: unknown): GeoGebraLabSettings {
-  if (!isRecord(data)) {
-    return { ...DEFAULT_SETTINGS };
-  }
-
-  return {
-    defaultAppName:
-      typeof data.defaultAppName === "string" && GEO_GEBRA_APP_NAME_SET.has(data.defaultAppName)
-        ? (data.defaultAppName as GeoGebraAppName)
-        : DEFAULT_SETTINGS.defaultAppName,
-    defaultWidth: readNumber(data.defaultWidth, DEFAULT_SETTINGS.defaultWidth),
-    defaultHeight: readNumber(data.defaultHeight, DEFAULT_SETTINGS.defaultHeight),
-    defaultShowToolBar: readBoolean(
-      data.defaultShowToolBar,
-      DEFAULT_SETTINGS.defaultShowToolBar
-    ),
-    defaultShowAlgebraInput: readBoolean(
-      data.defaultShowAlgebraInput,
-      DEFAULT_SETTINGS.defaultShowAlgebraInput
-    ),
-    defaultShowMenuBar: readBoolean(
-      data.defaultShowMenuBar,
-      DEFAULT_SETTINGS.defaultShowMenuBar
-    ),
-    renderMode: readRenderMode(data.renderMode, DEFAULT_SETTINGS.renderMode),
-    geogebraScriptUrl: readString(data.geogebraScriptUrl, DEFAULT_SETTINGS.geogebraScriptUrl),
-    viewerUrl: readString(data.viewerUrl, DEFAULT_SETTINGS.viewerUrl),
-    enableCaption: readBoolean(data.enableCaption, DEFAULT_SETTINGS.enableCaption),
-    enableExplain: readBoolean(data.enableExplain, DEFAULT_SETTINGS.enableExplain),
-    defaultLanguage: readString(data.defaultLanguage, DEFAULT_SETTINGS.defaultLanguage),
-    defaultLoadingText: readString(data.defaultLoadingText, DEFAULT_SETTINGS.defaultLoadingText),
-    defaultTransparentGraphics: readBoolean(
-      data.defaultTransparentGraphics,
-      DEFAULT_SETTINGS.defaultTransparentGraphics
-    ),
-    defaultShowResetIcon: readBoolean(
-      data.defaultShowResetIcon,
-      DEFAULT_SETTINGS.defaultShowResetIcon
-    ),
-    defaultShowFullscreenButton: readBoolean(
-      data.defaultShowFullscreenButton,
-      DEFAULT_SETTINGS.defaultShowFullscreenButton
-    ),
-    defaultShowZoomButtons: readBoolean(
-      data.defaultShowZoomButtons,
-      DEFAULT_SETTINGS.defaultShowZoomButtons
-    ),
-    defaultEnableRightClick: readBoolean(
-      data.defaultEnableRightClick,
-      DEFAULT_SETTINGS.defaultEnableRightClick
-    ),
-    defaultEnableLabelDrags: readBoolean(
-      data.defaultEnableLabelDrags,
-      DEFAULT_SETTINGS.defaultEnableLabelDrags
-    ),
-    defaultEnableShiftDragZoom: readBoolean(
-      data.defaultEnableShiftDragZoom,
-      DEFAULT_SETTINGS.defaultEnableShiftDragZoom
-    ),
-    defaultPreventFocus: readBoolean(
-      data.defaultPreventFocus,
-      DEFAULT_SETTINGS.defaultPreventFocus
-    )
-  };
 }
 
 class GeoGebraBlockChild extends MarkdownRenderChild {
@@ -148,10 +59,15 @@ export default class GeoGebraLabPlugin extends Plugin {
   async onload(): Promise<void> {
     await this.loadSettings();
 
-    this.registerMarkdownCodeBlockProcessor(
-      "geogebra",
-      (source, el, ctx) => this.renderGeoGebraBlock(source, el, ctx)
-    );
+    CODE_BLOCK_ALIASES.forEach((alias) => {
+      this.registerMarkdownCodeBlockProcessor(
+        alias,
+        (source, el, ctx) => this.renderGeoGebraBlock(source, el, ctx)
+      );
+    });
+
+    const cleanupSyntaxHighlighting = registerSyntaxHighlighting();
+    this.register(() => cleanupSyntaxHighlighting());
 
     this.registerDomEvent(window, "message", (event: MessageEvent<GeoGebraFrameMessage>) => {
       const data = event.data;

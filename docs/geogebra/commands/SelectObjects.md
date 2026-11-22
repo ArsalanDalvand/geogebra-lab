@@ -1,0 +1,14 @@
+# SelectObjects Command
+
+#### `SelectObjects( )`
+  Deselects all selected objects.
+#### `SelectObjects( <Object>, <Object>, ... )`
+  Deselects all objects and selects objects passed as parameters. All parameters must be
+  [labeled](Labels_and_Captions.md) objects.
+
+> [!EXAMPLE]
+> * Let _A_, _B_ and _C_ be points. `SelectObjects(A, B, C)` selects points _A_, _B_ and _C_.
+> * The command `SelectObjects(Midpoint(A, B))` has no effect, besides deselecting all selected objects.
+
+> [!NOTE]
+> This command now cancels any drag that is in progress (useful in scripts).

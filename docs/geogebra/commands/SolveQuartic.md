@@ -1,0 +1,12 @@
+# SolveQuartic Command
+
+> [!NOTE]
+> This page is about a feature that is supported only in link:https://beta.geogebra.org/cas[GeoGebra beta].
+
+## CAS Syntax
+
+#### `SolveQuartic( <Quartic Polynomial> )`
+  Solves a given https://en.wikipedia.org/wiki/Quartic_function[quartic polynomial] and returns a list of all solutions.
+
+> [!EXAMPLE]
+> `SolveQuartic( x^4 + x^3 + x^2 + x )` yields {0, -1, _i_, -_i_ }

@@ -1,0 +1,9 @@
+# CharacteristicPolynomial Command
+
+## CAS Syntax
+
+#### `CharacteristicPolynomial( <Matrix> )`
+  Returns the https://en.wikipedia.org/wiki/Characteristic_polynomial[characteristic polynomial] of the given matrix.
+
+> [!EXAMPLE]
+> `CharacteristicPolynomial({{1,2},{3,4}})` yields stem:[x^2-5x-2].

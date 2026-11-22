@@ -1,0 +1,13 @@
+# Dot Command
+
+#### `Dot( <Vector or List>, <Vector or List> )`
+  Returns the dot product (scalar product) of the two vectors or lists.
+
+> [!EXAMPLE]
+> Both `Dot((1, 3, 2), (0, 3, -2))` and `Dot({1, 3, 2}, {0, 3, -2})` 
+> yield _5_, the scalar product of _(1, 3, 2)_ and _(0, 3, -2)_.
+> 
+> `Dot({1, 2}, {2, 3})` yields _8_.
+
+> [!NOTE]
+> See also [Cross Command](Cross.md).

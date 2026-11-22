@@ -1,0 +1,9 @@
+# ReadText Command
+
+> [!NOTE]
+> This command allows authors to include information for visually impaired users, making their applets more
+> [accessible](Accessibility.md). To hear the output you need to install a screen reader such as
+> https://www.nvaccess.org/download/[NVDA] or VoiceOver. Currently it is only supported in the online version of GeoGebra.
+
+#### `ReadText( <Text> )`
+  Tells the screen reader to read given text immediately.

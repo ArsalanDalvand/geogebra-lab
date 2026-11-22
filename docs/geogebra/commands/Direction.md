@@ -1,0 +1,10 @@
+# Direction Command
+
+#### `Direction( <Line> )`
+  Yields the direction vector of the line.
+
+> [!EXAMPLE]
+> `Direction(-2x + 3y + 1 = 0)` yields the vector stem:[u= \begin{pmatrix} 3 \\ 2 \end{pmatrix} ]
+
+> [!NOTE]
+> A line with equation _ax + by = c_ has the direction vector _(b, - a)_.

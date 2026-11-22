@@ -1,0 +1,10 @@
+# Circumference Command
+
+#### `Circumference(Conic)`
+  If the given conic is a circle or ellipse, this command returns its circumference. Otherwise the result is undefined.
+
+> [!EXAMPLE]
+> `Circumference(x^2 + 2y^2 = 1)` yields _5.4_.
+
+> [!NOTE]
+> See also [Perimeter](Perimeter.md) command.

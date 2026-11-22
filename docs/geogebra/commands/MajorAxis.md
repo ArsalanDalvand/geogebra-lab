@@ -1,0 +1,10 @@
+# MajorAxis Command
+
+#### `MajorAxis( <Conic> )`
+  Returns the equation of the major axis of the conic section.
+
+> [!EXAMPLE]
+> `MajorAxis(x^2 / 9 + y^2 / 4 = 1)` returns _y_ = 0.
+
+> [!NOTE]
+> See also [MinorAxis](MinorAxis.md) command.

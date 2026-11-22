@@ -1,0 +1,13 @@
+# Append Command
+
+#### `Append( <List>, <Object> )`
+  Appends the object to the list and yields the results in a new list.
+
+> [!EXAMPLE]
+> `Append({1, 2, 3}, 4)` creates the list _{1, 2, 3, 4}_.
+
+#### `Append( <Object>, <List> )`
+  Appends the list to the object and yields the results in a new list.
+
+> [!EXAMPLE]
+> `Append(4, {1, 2, 3})` creates the list _{4, 1, 2, 3}_.

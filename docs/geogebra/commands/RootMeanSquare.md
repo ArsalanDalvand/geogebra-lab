@@ -1,0 +1,7 @@
+# RootMeanSquare Command
+
+#### `RootMeanSquare( <List of Numbers> )`
+  Returns the https://en.wikipedia.org/wiki/Root_mean_square[root mean square] of given list of numbers.
+
+> [!EXAMPLE]
+> `RootMeanSquare({3, 4, 5, 3, 2, 3, 4})` yields _3.5456_.

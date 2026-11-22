@@ -1,0 +1,23 @@
+# Area Command
+
+#### `Area( <Point>, ..., <Point> )`
+  Calculates the area of the polygon defined by the given points.
+
+> [!EXAMPLE]
+> `Area((0, 0), (3, 0), (3, 2), (0, 2))` yields _6_.
+
+#### `Area( <Conic> )`
+  Calculates the area of a conic section (circle or ellipse).
+
+> [!EXAMPLE]
+> `Area(x^2 + y^2 = 2)` yields _6.28_.
+
+#### `Area( <Polygon> )`
+  Calculates the area of the polygon.
+
+> [!NOTE]
+> * for Polygons, the absolute value of the Algebraic Area is calculated (which gives unexpected answers for
+> self-intersecting polygons)
+> * In order to calculate the area between two function graphs, you need to use the command
+> [IntegralBetween](IntegralBetween.md).
+> * See also the  [Area](Area.md) tool.

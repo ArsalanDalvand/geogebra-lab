@@ -1,0 +1,7 @@
+# Eccentricity Command
+
+#### `Eccentricity( <Conic> )`
+  Calculates the eccentricity of the conic section.
+
+> [!EXAMPLE]
+> `Eccentricity(x^2/9 + y^2/4 = 1)` returns _a_ = 0.75

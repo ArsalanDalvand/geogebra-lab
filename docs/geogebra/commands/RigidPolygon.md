@@ -1,0 +1,17 @@
+# RigidPolygon Command
+
+#### `RigidPolygon( <Polygon> )`
+  Creates a copy of any polygon that can only be translated by dragging its first vertex and rotated by dragging its
+  second vertex.
+
+#### `RigidPolygon( <Polygon>, <Offset x>, <Offset y> )`
+  Creates a copy of any polygon with the given offset that can only be translated by dragging its first vertex and
+  rotated by dragging its second vertex.
+
+#### `RigidPolygon( <Free Point>, ..., <Free Point> )`
+  Creates a polygon whose shape cannot be changed. This polygon can be translated by dragging its first vertex and rotated
+  by dragging its second vertex.
+
+> [!NOTE]
+> The copy will update with every change of the original polygon. If you want to change the shape of the copy, you have to
+> change the original.

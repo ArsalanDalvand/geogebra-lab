@@ -1,0 +1,48 @@
+# Texts
+
+Text objects can be easily created using [Text Command](Text.md) or  [Insert Text Tool](Text.md), or by dragging an object from the
+ [Algebra View](Algebra_View.md) to
+the  [Graphics
+View](Graphics_View.md). Another way *for advanced users* (described below) is typing into [Input Bar](Input_Bar.md) directly.
+
+## Terms
+
+Static text::
+  does not depend on any mathematical objects and is usually not affected by changes of the construction.
+
+Dynamic text::
+  contains values of objects that automatically adapt to changes made to these objects.
+
+Mixed text::
+  is a combination of static and dynamic text. In order to create a mixed text you may enter the static part of the text
+  using the keyboard (e.g. Point A =). Then, click on the object whose value you want to display in the dynamic part of
+  the text.
+
+## Input via Input Bar
+
+Texts can also be created using the Input Bar. In this case the syntax, which separates the dynamic and static parts, is
+to be considered.
+
+> [!NOTE]
+> GeoGebra automatically adds the syntax ("Point A = " + A ) necessary to create your mixed text: quotation marks around
+> the static part of the text and a plus (+) symbol to connect the different parts of the text.
+
+[cols=",",options="header",]
+
+| Input | Description | This is static text | Static text |
+| --- | --- | --- | --- |
+| A | Dynamic text (if point A exists) | "Point A = " + A | Two-part mixed text using the value of point A |
+| "a = " + a + "cm" | Three-part mixed text using the value of number a |  |  |
+
+> [!NOTE]
+> If an object with the name xx already exists and you want to create a static text using the object’s name, you need to
+> enter it with quotation marks ("xx"). Otherwise, GeoGebra will automatically create a dynamic text that gives you the
+> value of object xx instead of its name. However, you can type any text that doesn’t match any existing object’s name
+> without the quotation marks.
+
+> [!NOTE]
+> Within a mixed text, the static part needs to be in between a pair of quotation marks. Different parts of a text (e.g.
+> static and dynamic parts) can be connected using plus (+) symbols. Since 4.0, the + symbols are not mandatory.
+
+> [!NOTE]
+> Text objects can also use [LaTeX](LaTeX.md) for typesetting math.

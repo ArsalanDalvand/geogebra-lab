@@ -1,0 +1,13 @@
+# Remove Command
+
+#### `Remove( <List>, <List> )`
+  Removes objects from the first list each time they appear in the second list.
+
+> [!EXAMPLE]
+> `Remove({1,3,4,4,9},{1,4,5})` yields list `{3,4,9}`.
+
+> [!NOTE]
+> * {blank}
+> +
+> See also [RemoveUndefined Command](RemoveUndefined.md).
+> * You can also type `{1,3,4,4,9} \ {1,4,5}` if you want the set-theoretic difference .

@@ -1,0 +1,10 @@
+# NextPrime Command
+
+#### `NextPrime( <Number> )`
+  Returns the smallest prime greater than the entered number.
+
+> [!EXAMPLE]
+> `NextPrime(10000)` yields _10007_.
+
+> [!NOTE]
+> See also [PreviousPrime Command](PreviousPrime.md).

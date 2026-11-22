@@ -1,0 +1,10 @@
+# Identity Command
+
+#### `Identity( <Number> )`
+  Gives the identity matrix of the given order.
+
+> [!EXAMPLE]
+> `Identity(3)` yields the matrix _stem:[\begin{pmatrix}1&0&0\\0&1&0\\0&0&1\end{pmatrix}]_.
+
+> [!NOTE]
+> If _A_ is a square matrix of order _n_, `A^0` yields the same as `Identity(n)`.

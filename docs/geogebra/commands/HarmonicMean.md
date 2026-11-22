@@ -1,0 +1,7 @@
+# HarmonicMean Command
+
+#### `HarmonicMean( <List of Numbers> )`
+  Returns the https://en.wikipedia.org/wiki/Harmonic_mean[harmonic mean] of given list of numbers.
+
+> [!EXAMPLE]
+> `HarmonicMean({13, 7, 26, 5, 19})` yields _9.79_.

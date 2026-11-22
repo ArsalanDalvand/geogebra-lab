@@ -1,0 +1,8 @@
+# TurtleUp Command
+
+#### `TurtleUp( <Turtle> )`
+
+Instructs the named turtle not trace its movement from now.
+
+> [!NOTE]
+> See also command [TurtleDown](TurtleDown.md)

@@ -1,0 +1,18 @@
+# DivisorsSum Command
+
+#### `DivisorsSum( <Number> )`
+  Calculates the sum of all the positive divisors, including the number itself.
+
+> [!EXAMPLE]
+> `DivisorsSum(15)` yields _24_, the sum _1 + 3 + 5 + 15_.
+
+## CAS Syntax
+
+#### `DivisorsSum( <Number> )`
+  Calculates the sum of all the positive divisors, including the number itself.
+
+> [!EXAMPLE]
+> `DivisorsSum(15)` yields _24_, the sum _1 + 3 + 5 + 15_.
+
+> [!NOTE]
+> See also [Divisors Command](Divisors.md) and [DivisorsList Command](DivisorsList.md).

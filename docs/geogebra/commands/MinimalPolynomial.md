@@ -1,0 +1,9 @@
+# MinimalPolynomial Command
+
+## CAS Syntax
+
+#### `MinimalPolynomial( <Matrix> )`
+  Returns the https://en.wikipedia.org/wiki/Minimal_polynomial_(linear_algebra)[minimal polynomial] of the given matrix.
+
+> [!EXAMPLE]
+> `MinimalPolynomial({{1,0},{0,1}})` yields stem:[x-1].

@@ -1,0 +1,28 @@
+# Polygon Command
+
+#### `Polygon( <Point>, ..., <Point> )`
+  Returns a polygon defined by the given points.
+
+> [!EXAMPLE]
+> `Polygon((1, 1), (3, 0), (3, 2), (0, 4))` yields a quadrilateral.
+
+#### `Polygon( <Point>, <Point>, <Number of Vertices> )`
+  Creates a regular polygon with _n_ vertices.
+
+> [!EXAMPLE]
+> `Polygon((1, 1), (4, 1), 6)` yields a hexagon.
+
+#### `Polygon( <List of Points> )`
+  Returns a polygon defined by the points in the list.
+
+> [!EXAMPLE]
+> `Polygon({(0, 0), (2, 1), (1, 3)})` yields a triangle.
+
+#### `Polygon( <Point>, <Point>, <Number of Vertices n>, <Direction> )`
+  Creates a regular polygon with _n_ vertices, and directed by the _direction_ (e.g. a plane to which the polygon will
+  be parallel, if possible).
+
+> [!NOTE]
+> See also  [Polygon](Polygon.md) and
+> 
+> [Regular Polygon](Regular_Polygon.md) tools.

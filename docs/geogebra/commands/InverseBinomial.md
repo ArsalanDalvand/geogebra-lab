@@ -1,0 +1,9 @@
+# InverseBinomial Command
+
+#### `InverseBinomial( <Number of Trials>, <Probability of Success>, <Cumulative Probability> )`
+  Returns least integer _n_ such that _P(X ≤ n) ≥ p_, where _p_ is the probability and _X_ is
+  https://en.wikipedia.org/wiki/Binomial_distribution[binomial random variable] given by _Number of Trials_ and
+  _Probability of Success_.
+
+> [!NOTE]
+> See also [BinomialDist Command](BinomialDist.md).

@@ -1,0 +1,11 @@
+# CellRange Command
+
+#### `CellRange( <Start Cell>, <End Cell> )`
+  Creates a list containing the cell values in this cell range.
+
+> [!EXAMPLE]
+> Let `A1 = 1`, `A2 = 4`, `A3 = 9` be [spreadsheet](Spreadsheet_View.md) cells values.Then
+> `CellRange(A1, A3)` returns the list {1, 4, 9}.
+
+> [!NOTE]
+> `A1:A3` is a shorter syntax.

@@ -1,0 +1,12 @@
+# SetTooltipMode Command
+
+#### `SetTooltipMode( <Object>, <Number> )`
+  Changes the [tooltip mode](Tooltips.md) for given object according to following table (values out of range [0,4]
+  are treated as 0):
+
+[cols=",",options="header",]
+
+| Number | Mode | 0 | Automatic |
+| --- | --- | --- | --- |
+| 1 | On | 2 | Off |
+| 3 | Caption | 4 | Next cell |

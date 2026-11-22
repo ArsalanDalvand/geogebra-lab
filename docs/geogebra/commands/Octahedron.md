@@ -1,0 +1,30 @@
+# Octahedron Command
+
+#### `Octahedron( <Equilateral Triangle> )`
+  Creates an octahedron having as base the given equilateral triangle.
+
+#### `Octahedron( <Point>, <Point>, <Direction> )`
+  Creates an octahedron having the segment between the two points as an edge.
+  The other vertices are univocally determined by the given direction, that needs to be:
+  * a vector, a segment, a line, a ray *orthogonal* to the segment, or
+  * a polygon, a plane *parallel* to the segment.
++ 
+The created octahedron will have:
+  * a face with the segment as an edge in a plane orthogonal to the given vector/segment/line/ray, or
+  * a face with the segment as an edge in a plane parallel to the polygon/plane.
+
+#### `Octahedron( <Point>, <Point>, <Point>)`
+  Creates an octahedron with the three points of the first face. The points have to draw an equilateral triangle for the
+  octahedron to be defined.
+
+#### `Octahedron( <Point>, <Point>)`
+  Creates an octahedron with the two points of the first face, and the third point automatically created on a circle, so
+  that the octahedron can rotate around its first edge.
+
+> [!NOTE]
+> `Octahedron(A, B)` is a shortcut for `Octahedron(A, B, C)` with `C = Point(Circle(Midpoint(A, B), Distance(A, B) sqrt(3) / 2,
+> Segment(A, B)))`.
+
+> [!NOTE]
+> See also [Cube](Cube.md), [Tetrahedron](Tetrahedron.md),
+> [Icosahedron](Icosahedron.md), [Dodecahedron](Dodecahedron.md) commands.

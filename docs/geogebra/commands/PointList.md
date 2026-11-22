@@ -1,0 +1,7 @@
+# PointList Command
+
+#### `PointList( <List> )`
+  Creates list of points from a list of two-element lists.
+
+> [!EXAMPLE]
+> `PointList({{1,2},{3,4}})` returns {(1,2),(3,4)}.

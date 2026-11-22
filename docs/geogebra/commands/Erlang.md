@@ -1,0 +1,14 @@
+# Erlang Command
+
+#### `Erlang( <Shape>, <Rate>, <Variable Value> )`
+  Calculates the value of cumulative distribution function of an https://en.wikipedia.org/wiki/Erlang_distribution[Erlang distribution] at _variable value v_, i.e. the
+  probability _P(X ≤ v)_ where _X_ is a random variable with an Erlang distribution defined by the parameters _shape_ and _rate_.
+
+> [!NOTE]
+> This syntax returns the probability at a given value, that is the area under the Erlang distribution curve to the left of the given _x_-coordinate.
+
+#### `Erlang( <Shape>, <Rate>, <Variable Value>, <Boolean Cumulative> )`
+  If _Cumulative = true_, calculates the value of the cumulative distribution function of an Erlang distribution with given _shape_ and _rate_ at the given _variable value_, otherwise it calculates the probability density function of the distribution at _variable value_.
+
+#### `Erlang( <Shape>, <Rate>, x, <Boolean Cumulative> )`
+  If _Cumulative = true_, creates the cumulative density function (cdf) of an Erlang distribution with given _shape_ and _rate_, otherwise it creates the probability density function (pdf) of the distribution.

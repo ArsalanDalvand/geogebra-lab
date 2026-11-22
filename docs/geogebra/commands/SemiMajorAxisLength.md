@@ -1,0 +1,10 @@
+# SemiMajorAxisLength Command
+
+#### `SemiMajorAxisLength( <Conic> )`
+  Returns the length of the semimajor axis (half of the major axis) of the conic section.
+
+> [!EXAMPLE]
+> `SemiMajorAxisLength((x - 1)^2 + (y - 2)^2 = 4)` yields _2_.
+
+> [!NOTE]
+> See also [SemiMinorAxisLength](SemiMinorAxisLength.md) command.

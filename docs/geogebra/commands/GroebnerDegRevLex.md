@@ -1,0 +1,21 @@
+# GroebnerDegRevLex Command
+
+## CAS Syntax
+
+#### `GroebnerDegRevLex( <List of Polynomials> )`
+  Computes the Gröbner basis of the list of the polynomials with respect to graded reverse lexicographical ordering of
+  the variables (also known as _total degree reverse lexicographic ordering_, _degrevlex_ or _grevlex_ ordering).
+
+> [!EXAMPLE]
+> `GroebnerDegRevLex({x^3 - y - 2, x^2 + y + 1})` yields {stem:[ y^{2} - x + 3 y + 3, x y + x + y + 2, x^{2} + y +
+> 1 ]}.
+
+#### `GroebnerDegRevLex( <List of Polynomials>, <List of Variables> )`
+  Computes the Gröbner basis of the list of the polynomials with respect to graded reverse lexicographical ordering of
+  the given variables (also known as _total degree reverse lexicographic ordering_, _degrevlex_ or _grevlex_ ordering).
+
+> [!EXAMPLE]
+> `GroebnerDegRevLex({x^3 - y - 2, x^2 + y + 1}, {y, x})` yields {stem:[ x^{2} + y + 1, y x + y + x + 2, y^{2} + 3y - x + 3]}.
+
+> [!NOTE]
+> See also [GroebnerLex](GroebnerLex.md) and [GroebnerLexDeg](GroebnerLexDeg.md) commands.

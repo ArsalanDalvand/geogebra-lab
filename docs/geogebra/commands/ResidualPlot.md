@@ -1,0 +1,14 @@
+# ResidualPlot Command
+
+#### `ResidualPlot( <List of Points>, <Function> )`
+  Returns a list of points whose x-coordinates are equal to the x-coordinates of the elements of the given list, and
+  y-coordinates are the residuals with respect to _f_.
+  If the _i_-th element of the given list is a point _(a,b)_ then _i_-th element of the result is _(a,b-f(a))_.
+
+> [!EXAMPLE]
+> Let
+> `list = {(-1, 1), (-0.51, 2), (0, 0.61), (0.51, -1.41), (0.54, 1.97), (1.11, 0.42), (1.21, 2.53), (-0.8, -0.12)}` be
+> the list of points and `f(x) = x^5 + x^4 - x - 1` the function. The `ResidualPlot(list, f )` command yields
+> _list1 = {(-1, 1), (-0.51, 2.46), (0, 1.61), (0.51, 0), (0.54, 3.38), (1.11, -0.66), (1.21, 0), (-0.8, 0)}_ and creates
+> the corresponding points in 
+> [Graphics View](Graphics_View.md).

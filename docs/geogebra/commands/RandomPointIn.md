@@ -1,0 +1,18 @@
+# RandomPointIn Command
+
+#### `RandomPointIn( <Region> )`
+
+Creates a random point inside a given polygon or closed conic.
+
+#### `RandomPointIn( <List of Points> )`
+
+Returns a random point inside the polygon with given vertices.
+
+> [!EXAMPLE]
+> `RandomPointIn(Polygon(A,B,C))` and `RandomPointIn(A,B,C)` both give random point inside triangle ABC.
+> 
+> To get a random point that belongs to the list use [Random Element](RandomElement.md) instead.
+
+#### `RandomPointIn( <xMin>, <xMax>, <yMin>, <yMax> )`
+
+Creates a random point with x-coordinate from interval [xMin,xMax] and y-coordinate from interval [yMin, yMax].

@@ -1,0 +1,6 @@
+# InverseTDistribution Command
+
+#### `InverseTDistribution( <Degrees of Freedom>, <Probability> )`
+  Evaluates at _p_ the inverse of the cumulative distribution function of a 
+  https://en.wikipedia.org/wiki/T-distribution[t-distribution] with the given number of _degrees of freedom_. In other words, it finds _r_ such that _P(X≤r)=p_, where X is a random variable with a t-distribution. Probability
+  _p_ must be a value in the closed interval [0,1].

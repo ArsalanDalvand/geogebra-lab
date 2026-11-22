@@ -1,0 +1,5 @@
+# RandomDiscrete Command
+
+#### `RandomDiscrete( <List>, <List> )`
+
+Returns a random number from the first list according to the (relative) probability distribution defined in the second list. The two lists must have the same length, and the sum of values in the second list may not be 1, since the probabilities are normalized.

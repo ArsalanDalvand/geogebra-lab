@@ -1,0 +1,28 @@
+# Laplace Command
+
+## CAS Syntax
+
+#### `Laplace( <Function> )`
+  Returns the https://en.wikipedia.org/wiki/Laplace_transform[Laplace transform] of the given function.
+
+> [!EXAMPLE]
+> ` Laplace(sin(t))` returns stem:[\mathbf{\frac{1}{s^{2} + 1}} ]
+
+#### `Laplace( <Function>, <Variable> )`
+  Returns the Laplace transform of the function, with respect to the given variable.
+
+> [!EXAMPLE]
+> `Laplace(sin(a*t),t)` returns stem:[\mathbf{\frac{a}{a^{2} + t^{2}}}]
+> 
+> `Laplace(sin(a*t),a)` returns stem:[\mathbf{\frac{t}{a^{2} + t^{2}}}]
+
+#### `Laplace( <Function>, <Original Variable>, <Transformed Variable> )`
+  Returns the Laplace transform of the given function with respect to the original variable, expressed in terms of the transformed variable.
+
+> [!EXAMPLE]
+> `Laplace(sin(a*t),t,s)` returns stem:[\mathbf{\frac{a}{a^{2} + s^{2}}}]
+> 
+> `Laplace(sin(a*t),a,b)` returns stem:[\mathbf{\frac{t}{b^{2} + t^{2}}}]
+
+> [!NOTE]
+> See also [InverseLaplace](InverseLaplace.md) command.

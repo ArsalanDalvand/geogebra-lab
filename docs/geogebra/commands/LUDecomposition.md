@@ -1,0 +1,14 @@
+# LUDecomposition Command
+
+## CAS Syntax
+
+#### `LUDecomposition( <Matrix> )`
+  Calculates the https://en.wikipedia.org/wiki/LU_decomposition[LU decomposition] of the given matrix.
+
+> [!EXAMPLE]
+> `LUDecomposition({{2,0},{1,1}})` returns the matrices
+> stem:[\begin{pmatrix}0&1\\1&0\end{pmatrix}],stem:[\begin{pmatrix}1&0\\2&1\end{pmatrix}] and
+> stem:[\begin{pmatrix}1&1\\0&-2\end{pmatrix}].
+
+> [!NOTE]
+> See also [QRDecomposition](QRDecomposition.md) command.

@@ -1,0 +1,7 @@
+# MeanY Command
+
+#### `MeanY( <List of Points> )`
+  Calculates the mean of the _y_-coordinates of the points in the list.
+
+> [!EXAMPLE]
+> `MeanY({(0,0), (3,2), (5,1), (2,1), (2,4)})` yields _1.6_

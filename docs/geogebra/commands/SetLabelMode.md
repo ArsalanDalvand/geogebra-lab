@@ -1,0 +1,16 @@
+# SetLabelMode Command
+
+#### `SetLabelMode( <Object>, <Number> )`
+  Changes the label mode of the given object, according to the table below.
+
+> [!NOTE]
+> * Integers distinct from the ones listed in table are treated as 0.
+> * The default option for the object's label is _Name_.
+> * For options 3 and 9, if the object's _Caption_ box is empty, the _Name_ of the object is used as caption.
+
+[cols=",",options="header",]
+
+| Number | Mode | 0 | Name |
+| --- | --- | --- | --- |
+| 1 | Name + Value | 2 | Value |
+| 3 | [Caption](Labels_and_Captions.md) | 9 | [Caption](Labels_and_Captions.md) + Value |

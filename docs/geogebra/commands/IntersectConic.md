@@ -1,0 +1,12 @@
+# IntersectConic Command
+
+#### `IntersectConic( <Plane>, <Quadric> )`
+  Intersects the plane with the quadric.
+#### `IntersectConic( <Quadric>, <Quadric> )`
+  Returns a conic defined in case where the intersection is actually a conic.
+
+> [!EXAMPLE]
+> `IntersectConic(sphere1, sphere2)` creates the intersection conic of two spheres.
+
+> [!NOTE]
+> See also [Intersect](Intersect.md) and [IntersectPath](IntersectPath.md) commands.

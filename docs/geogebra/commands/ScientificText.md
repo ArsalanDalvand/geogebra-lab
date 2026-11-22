@@ -1,0 +1,25 @@
+# ScientificText Command
+
+> [!NOTE]
+> 
+> 
+> This command differs among variants of English:
+> 
+> * StandardForm (UK)
+> * ScientificText (US + Aus)
+
+#### `ScientificText( <Number> )`
+  Creates a text displaying the given number in https://en.wikipedia.org/wiki/Scientific_notation[scientific notation].
+
+> [!NOTE]
+> The text is placed with the top left corner (Corner 4) of its box at the origin of the coordinate system.
+
+> [!EXAMPLE]
+> `ScientificText(0.002)` gives _2 × 10^-3^._
+
+#### `ScientificText( <Number>, <Precision> )`
+  Creates a text displaying the given number in https://en.wikipedia.org/wiki/Scientific_notation[scientific notation], rounded to the number of
+  significant digits specified by *precision*.
+
+> [!EXAMPLE]
+> `ScientificText(e,5)` gives _2.7183 × 10<sup>0</sup>._

@@ -1,0 +1,7 @@
+# Ordinal Command
+
+#### `Ordinal( <Integer> )`
+  Turns a number into an ordinal (as a text).
+
+> [!EXAMPLE]
+> `Ordinal(5)` returns "5th".

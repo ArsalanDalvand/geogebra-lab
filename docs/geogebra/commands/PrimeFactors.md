@@ -1,0 +1,20 @@
+# PrimeFactors Command
+
+#### `PrimeFactors( <Number> )`
+  Returns the list of https://en.wikipedia.org/wiki/Prime_number[primes] whose product is equal to the given number.
+
+> [!EXAMPLE]
+> * `PrimeFactors(1024)` yields _{2, 2, 2, 2, 2, 2, 2, 2, 2, 2}_.
+> * `PrimeFactors(42)` yields _{2, 3, 7}_.
+
+## CAS Syntax
+
+#### `PrimeFactors( <Number> )`
+  Returns the list of https://en.wikipedia.org/wiki/Prime_number[primes] whose product is equal to the given number.
+
+> [!EXAMPLE]
+> * `PrimeFactors(1024)` yields _{2, 2, 2, 2, 2, 2, 2, 2, 2, 2}_.
+> * `PrimeFactors(42)` yields _{2, 3, 7}_.
+
+> [!NOTE]
+> See also [Factor](Factors.md) command.

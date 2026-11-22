@@ -1,0 +1,29 @@
+# SetViewDirection Command
+
+#### `SetViewDirection( <Direction> )`
+  Sets the direction of the 3D view orientation depending on the given object.
+
+> [!EXAMPLE]
+> * `SetViewDirection(Vector((0, 0, 1)))`
+> * `SetViewDirection((0, 0, 1))`
+> * `SetViewDirection(x + y + z = 1)`
+
+#### `SetViewDirection( )`
+  Sets the direction of the 3D view orientation to the default position.
+
+> [!EXAMPLE]
+> `SetViewDirection()`
+
+#### `SetViewDirection( <Direction>, <Boolean animated> )`
+  Sets the direction of the 3D view orientation depending on the given object, with optional animation.
+
+> [!EXAMPLE]
+> In order to obtain the rotation of the 3D view, depending on the values of a previously created slider _α_, use the
+> command `SetViewDirection(Vector((1; α; -30°)), false)` in the _OnUpdate_ scripting tab of slider _α_.
+
+> [!NOTE]
+> * The view direction can be set towards a line, segment, plane, etc.
+> * If you do eg `SetViewDirection(x + y + z = 1)` twice then there are two possible outcomes and the _second_ one
+> will rotate the view 180°. To avoid ambiguity use eg `SetViewDirection(Vector((0, 0, 1)))`
+> * See also 
+> [View in front of](View_in_front_of.md) tool.

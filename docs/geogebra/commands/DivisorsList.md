@@ -1,0 +1,18 @@
+# DivisorsList Command
+
+#### `DivisorsList( <Number> )`
+  Gives the list of all the positive divisors, including the number itself.
+
+> [!EXAMPLE]
+> `DivisorsList(15)` yields _{1, 3, 5, 15}_, the list of all positive divisors of _15_, including _15_.
+
+## CAS Syntax
+
+#### `DivisorsList( <Number> )`
+  Gives the list of all the positive divisors, including the number itself.
+
+> [!EXAMPLE]
+> `DivisorsList(15)` yields _{1, 3, 5, 15}_, the list of all positive divisors of _15_, including _15_.
+
+> [!NOTE]
+> See also [Divisors Command](Divisors.md) and [DivisorsSum Command](DivisorsSum.md).

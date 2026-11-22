@@ -1,0 +1,25 @@
+# Cross Command
+
+#### `Cross( <Vector u> , <Vector v> )`
+  Calculates the https://en.wikipedia.org/wiki/Cross_product[cross product] of _u_ and _v_. Instead of vectors you can
+  also use lists.
+
+> [!EXAMPLE]
+> * `Cross((1, 3, 2), (0, 3, -2))` yields _(-12, 2, 3)_
+> 
+> * `Cross({1, 1, 1}, {-1, -1, -1})` yields _{0, 0, 0}_
+
+For 2D vectors or points the result is the _z_-coordinate of the actual cross product.
+
+> [!EXAMPLE]
+> `Cross((1,2),(4,5))` yields -3.
+
+> [!NOTE]
+> If a vector in the  [CAS View](CAS_View.md) contains undefined
+> variables, the command yields a formula for the cross product, e.g. `Cross((a, b, c), (d, e, f))` yields _(b f - c
+> e, -a f + c d, a e - b d)_.
+
+> [!NOTE]
+> * You can also use the [operator](Predefined_Functions_and_Operators.md) `u ⊗ v`
+> +
+> * See also [Dot Command](Dot.md).

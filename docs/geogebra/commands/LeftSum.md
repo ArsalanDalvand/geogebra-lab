@@ -1,0 +1,14 @@
+# LeftSum Command
+
+#### `LeftSum( <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles> )`
+  Calculates the left sum of the function in the interval using _n_ rectangles.
+
+> [!EXAMPLE]
+> `LeftSum(x^2 + 1, 0, 2, 4)` yields _a_ = 3.75
+
+> [!NOTE]
+> * This command draws the rectangles of the left sum as well.
+> * This command is designed as a visual aid so won't give accurate answers if the number of rectangles is too large.
+> * See also the commands: [RectangleSum](RectangleSum.md),
+> [TrapezoidalSum](TrapezoidalSum.md), [LowerSum](LowerSum.md) and
+> [UpperSum](UpperSum.md).

@@ -1,0 +1,26 @@
+# IsFactored Command
+
+> [!NOTE]
+> 
+> 
+> This command differs among variants of English:
+> 
+> * IsFactored (US)
+> * IsFactorised (UK + Aus)
+
+#### `IsFactored( <Polynomial> )`
+  Returns ''true'' if the polynomial is factored in stem:[\mathbb Q] and ''false'' otherwise. In general, in order to consider a polynomial decomposition as factored, the coefficient of the leading term of each factor needs to be positive.
+
+> [!EXAMPLE]
+> * `IsFactored(x)` yields _true_ +
+> * `IsFactored(0.5)` yields _true_ +
+> * `IsFactored(5)` yields _true_ +
+> * `IsFactored(x^2-1)` yields _false_ +
+> * `IsFactored(x^2-2)` yields _true_ +
+> * `IsFactored(x(x+1))` yields _true_ +
+> * `IsFactored(x(2x+2))` yields _false_ +
+> * `IsFactored(x^3-1)` yields _false_ +
+> * `IsFactored(x(x/2+1/2))` yields _false_ +
+> * `IsFactored((x+1)(x^2-1))` yields _false_ +
+> * `IsFactored(-2x-2)` yields _false_ +
+> * `IsFactored(2x+2)` yields _false_ +

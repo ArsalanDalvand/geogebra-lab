@@ -1,0 +1,18 @@
+# FDistribution Command
+
+#### `FDistribution( <Numerator Degrees of Freedom>, <Denominator Degrees of Freedom>, <Variable Value> )`
+  Calculates the value of the cumulative distribution function of an https://en.wikipedia.org/wiki/F-distribution[F-distribution] at _variable value v_, i.e. the probability
+  _P(X≤v)_ where _X_ is a random variable with F-distribution with given _numerator_ and _denominator degrees of freedom_.
+
+> [!NOTE]
+> This syntax returns the probability at a given value, that is the area under the F-distribution curve to the left of the given _x_-coordinate.
+
+#### `FDistribution( <Numerator Degrees of Freedom>, <Denominator Degrees of Freedom>, <Variable Value>, <Boolean Cumulative> )`
+ If _Cumulative = true_, calculates the value of the cumulative distribution function of an F-distribution with given _numerator_ and _denominator degrees of freedom_ at the given _variable value_, otherwise it calculates the probability density function of the F-distribution at _variable value_.
+
+#### `FDistribution( <Numerator Degrees of Freedom>, <Denominator Degrees of Freedom>, x, <Boolean Cumulative> )`
+  If _Cumulative = true_, creates the cumulative density function (cdf) of an F-distribution with given _numerator_ and _denominator degrees of freedom_, otherwise it creates the probability density function (pdf) of the distribution.
+
+> [!NOTE]
+> This command is also available in the 
+> [CAS View](CAS_View.md).

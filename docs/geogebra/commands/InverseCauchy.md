@@ -1,0 +1,7 @@
+# InverseCauchy Command
+
+#### `InverseCauchy( <Median>, <Scale>, <Probability> )`
+  Computes the inverse of the cumulative distribution function of a https://en.wikipedia.org/wiki/Cauchy_distribution[Cauchy
+  distribution] at probability _p_, where the Cauchy distribution is defined by parameters _median_ and _scale_.
+  In other words, finds _t_ such that _P(X ≤ t) = p_, where _X_ is a Cauchy random variable.
+  Probability _p_ must be a value in the closed interval [0,1].

@@ -1,0 +1,5 @@
+# ZProportionEstimate Command
+
+#### `ZProportionEstimate ( <Sample Proportion >, <Sample Size >, <Confidence Level> )`
+  Calculates a _Z_ confidence interval estimate of a population proportion using the given sample statistics and
+  confidence level. Results are returned in list form as {lower confidence limit, upper confidence limit}.

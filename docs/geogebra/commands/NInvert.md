@@ -1,0 +1,15 @@
+# NInvert Command
+
+#### `NInvert( <Function> )`
+Gives the inverse of the function without showing the inverted formula.
+If you want to get the formula, use the [Invert Command](Invert.md) instead.
+
+> [!EXAMPLE]
+> `NInvert(sin(x))` yields a function _f_ such that _sin(f(x))=x_ for _-1 < x < 1_.
+
+> [!NOTE]
+> * No account is taken of domain or range, for example for f(x) = x<sup>2</sup> or f(x) =
+> sin(x).
+> 
+> * The command works faster for functions that only contain one _x_.
+> To make your construction more efficient you may want to rearrange your functions and use eg `NInvert((x+1)^2-1)` rather than `NInvert(x^2+2x)`.

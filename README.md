@@ -9,9 +9,13 @@ It is designed for notes, research, teaching material, and AI Agent workflows: A
 ## Key Features
 
 - **Full GeoGebra API Coverage:** Over 40 official GeoGebra parameters are configurable via YAML — zero hardcoding.
+- **Multiple Code Block Aliases:** Fully supports ```` ```geogebra ````, ```` ```ggb ````, ```` ```GeoGebra ````, and ```` ```GGB ````.
+- **Prism YAML Syntax Highlighting:** Integrated YAML syntax highlighting for code blocks inside Obsidian's editor with clean teardown.
 - **Support for All 8 Official Apps:** Graphing Calculator, Geometry, 3D Calculator, Classic, Calculator Suite, Evaluator, Scientific, and GeoGebra Notes.
 - **Native Obsidian Vault Attachment Resolution:** Reference `.ggb` files directly in your vault (`filename: "model.ggb"` or `filename: "[[model.ggb]]"`). They are automatically read and embedded as base64.
-- **Flexible UI Customization:** Configurable loading text, transparent graphics, border styling, custom toolbars, language selection, and interactive controls.
+- **Multi-Script Typography & Localization:** Built-in font stack (`Vazirmatn`, `Inter`, `Segoe UI`, `system-ui`) ensuring crisp rendering for Persian (Farsi), Arabic, and Latin text, plus forced language synchronization via `api.setLanguage`.
+- **9 Vault Settings Categories:** Comprehensive vault defaults inherited automatically when YAML omits fields.
+- **Bundled Offline GeoGebra Documentation & Agent Guide:** Over 500 official command docs, guides, and error prevention checklists included directly in `docs/geogebra/`.
 - **Zero Raw JS Execution:** Safe, sandboxed rendering through `srcdoc`, local viewer server, or hosted external viewer without exposing your vault to arbitrary code execution.
 
 ## Installation
@@ -73,7 +77,7 @@ The YAML syntax stays identical across all modes.
 
 ## Code Block Syntax & Examples
 
-Write a fenced code block using the `geogebra` language tag:
+Write a fenced code block using any supported alias (`geogebra`, `ggb`, `GeoGebra`, or `GGB`):
 
 ````markdown
 ```geogebra
@@ -85,15 +89,34 @@ loadingText: "در حال بارگذاری هندسه پویا..."
 transparentGraphics: true
 showToolBar: true
 showResetIcon: true
+showZoomButtons: true
 
 commands:
-  - "f(x)=sin(x)"
-  - "g(x)=cos(x)"
-  - "P=Intersect(f, g, 1)"
+  - "f(x) = sin(x)"
+  - "g(x) = cos(x)"
+  - "P = Intersect(f, g, 1)"
+  - "SetColor(f, \"#2563eb\")"
+  - "SetColor(g, \"#dc2626\")"
 
 caption: "بررسی تقاطع توابع مثلثاتی"
 explain:
   - "تابع سینوس و کسینوس در نقاط پیوسته متقاطع هستند."
+```
+````
+
+Or with the `ggb` alias:
+
+````markdown
+```ggb
+appName: graphing
+width: 800
+height: 500
+commands:
+  - "f(x) = x^3 - 3*x"
+  - "df = Derivative(f)"
+  - "SetColor(df, \"red\")"
+  - "SetLineStyle(df, 1)"
+caption: "Function and its derivative."
 ```
 ````
 
@@ -116,7 +139,7 @@ Obsidian link syntax (`filename: "[[physics-pendulum.ggb]]"`) is also fully supp
 
 ## Comprehensive YAML Reference (40+ Parameters)
 
-All parameters below can be configured directly inside your `geogebra` code block:
+All parameters below can be configured directly inside your code block:
 
 ### 1. App & Content Selection
 
@@ -187,7 +210,7 @@ All parameters below can be configured directly inside your `geogebra` code bloc
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `language` | string | none | ISO language code (e.g., `fa`, `en`, `de`, `fr`, `es`). |
+| `language` | string | `en` | ISO language code (e.g., `fa`, `en`, `de`, `fr`, `es`). Automatically forced via `api.setLanguage`. |
 | `country` | string | none | ISO country code. |
 | `rounding` | string | none | Decimal or significant figure precision (e.g. `"2"`, `"5s"`). |
 | `randomSeed` | number | none | Fixed seed for reproducible random numbers. |
@@ -217,27 +240,47 @@ All parameters below can be configured directly inside your `geogebra` code bloc
 | `caption` | string | none | Descriptive caption rendered underneath the diagram. |
 | `explain` | string array | `[]` | Bulleted teaching notes or insights rendered below the caption. |
 
-## Settings Tab
+## Settings Tab (9 Configuration Categories)
 
-In Obsidian Settings -> **GeoGebra Lab**, you can configure defaults for:
+In Obsidian Settings -> **GeoGebra Lab**, you can configure vault-wide defaults across 9 organized categories:
 
-- Render mode (`Local viewer server`, `External viewer iframe`, or `srcdoc iframe`)
-- Default app type (`graphing`, `geometry`, `3d`, `classic`, `suite`, etc.)
-- Default width and height
-- Default language and custom loading text
-- Default toggles: Transparent graphics, reset icon, zoom controls, fullscreen button, right-click, shift-drag zoom
-- Custom GeoGebra deployment script URL
-- External viewer URL
+1. **General & Render Mode:** Select between `Local viewer server`, `External viewer iframe`, and `srcdoc iframe`.
+2. **Default Dimensions & Scaling:** Default width, height, scale, auto-height, allow upscaling, border styling.
+3. **App Selection & Content Defaults:** Default app type (`graphing`, `geometry`, `3d`, `suite`, etc.), default perspective.
+4. **Toolbars, Menus & Style Bar:** Toggle toolbar, menubar, input bar, style bar, and undo/redo defaults.
+5. **UI Controls & Quick Buttons:** Toggle zoom buttons, fullscreen button, reset icon, animation controls.
+6. **Interactivity & Manipulation:** Default right-click, label dragging, shift-drag-zoom, snapping threshold.
+7. **Localization & Mathematics:** Default language (Persian `fa`, English `en`, or custom ISO code), rounding precision, random seed.
+8. **Exam & Virtual Keyboard:** Enable 3D, CAS, keyboard focus behavior, and layout.
+9. **Advanced & Viewer Deployment URLs:** Custom deployment script URL and external viewer endpoint.
 
-## AI Agent Integration
+Any field omitted in a Markdown block automatically inherits your vault settings.
 
-AI Agents (such as Claude Code, Copilot, or Obsidian Agents) should output structured YAML code blocks rather than HTML or JavaScript.
+## Offline Documentation & AI Agent Integration
 
-Recommended Agent instructions:
+GeoGebra Lab bundles a complete local reference library inside `docs/geogebra/` so that users and AI agents have immediate offline access to official command specifications and error prevention rules:
+
+- **[AI Agent Guide & Pitfalls](docs/geogebra/AGENT_GUIDE_AND_PITFALLS.md):** Deep breakdown of why agent-generated GeoGebra commands fail and how to write 100% error-free blocks.
+- **[Commands Catalog](docs/geogebra/COMMANDS_CATALOG.md):** Categorized index of 500+ commands.
+- **[500+ Command Reference Files](docs/geogebra/commands/):** Detailed markdown files for every single command (e.g. `Intersect.md`, `Circle.md`, `Derivative.md`, `Slider.md`, `Sphere.md`).
+- **[Core Guides](docs/geogebra/guides/):** In-depth guides for Scripting, 3D Graphics, Calculus, Points, Vectors, and Animation.
+- **[Web & Applet API](docs/geogebra/api/):** Reference for Applet parameters, JavaScript API methods, Colors, and Toolbar IDs.
+
+### Agent Skill
+
+The repository includes a ready-to-use Agent Skill in `skills/geogebra-lab/` for Claude Code, Hermes, and other LLM orchestrators:
+- `skills/geogebra-lab/SKILL.md`
+- `skills/geogebra-lab/references/error_prevention_guide.md`
+- `skills/geogebra-lab/references/command_signatures.md`
+- `skills/geogebra-lab/references/styling_reference.md`
+
+Recommended system prompt instruction for Obsidian agents:
 
 ```text
-When generating mathematical diagrams in Obsidian, output a ```geogebra fenced code block.
-Configure all visual parameters via YAML (appName, commands, width, height, caption, explain, language, etc.).
+When generating mathematical diagrams in Obsidian, use the GeoGebra Lab plugin syntax.
+Output a ```geogebra or ```ggb fenced code block containing pure YAML.
+Always use PascalCase English command names in `commands:` (e.g. Intersect, Midpoint, Circle, Derivative, SetColor).
+Always enclose each command string in double quotes.
 Do not output raw HTML, iframe tags, or JavaScript code.
 ```
 

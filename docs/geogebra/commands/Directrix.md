@@ -1,0 +1,10 @@
+# Directrix Command
+
+#### `Directrix( <Conic> )`
+  Yields the directrix of the conic.
+
+> [!EXAMPLE]
+> `Directrix(x^2 - 3x + 3y = 9)` yields the line _y_ = 4.5
+
+> [!NOTE]
+> See also the [Focus](Focus.md) command.

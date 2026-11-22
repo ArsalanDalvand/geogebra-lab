@@ -1,0 +1,19 @@
+# Iteration Command
+
+#### `Iteration( <Function>, <Start Value>, <Number of Iterations> )`
+  Iterates the function _n_ times (_n_ = number of iterations) using the given start value.
+
+> [!EXAMPLE]
+> * After defining `f(x) = x^2` the command `Iteration(f, 3, 2)` gives you the result (3<sup>2</sup>)<sup>2</sup> = 81.
+> * _Repeated addition_: To obtain the repeated addition of 7 to the number 3, define `g(x) = x + 7`, then
+> `Iteration(g, 3, 4)` yields (((3+7) +7) +7) +7 = 31.
+
+#### `Iteration( <Expression>, <Variable Name>, ..., <Start Values>, <Number of Iterations> )`
+  Iterates the expression _n_ times (_n_ = number of iterations) using the given start value. The result is then the
+  last element of the output of [IterationList Command](IterationList.md), with the same parameters.
+
+> [!EXAMPLE]
+> `Iteration(a^2+1,a,{(1+ί)/(sqrt(2))},5)` will do a repeated iteration on a complex number
+
+> [!NOTE]
+> See [IterationList Command](IterationList.md) for further details.

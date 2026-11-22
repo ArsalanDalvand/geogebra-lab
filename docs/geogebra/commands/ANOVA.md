@@ -1,0 +1,5 @@
+# ANOVA Command
+
+#### `ANOVA( <List>, <List>, ...)`
+  Performs a one-way https://en.wikipedia.org/wiki/Anova[ANOVA] test on the given lists of numbers.
+  Results are returned in list form as {P value, F test statistic}.

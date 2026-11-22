@@ -132,9 +132,8 @@ export function buildAppletParams(
   }
 
   // Localization & Mathematics
-  if (config.language !== undefined) {
-    params.language = config.language;
-  }
+  params.language =
+    config.language && config.language.trim() !== "" ? config.language.trim() : "en";
   if (config.country !== undefined) {
     params.country = config.country;
   }

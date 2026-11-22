@@ -19,11 +19,43 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
   const loadingText = config.loadingText ?? "Loading GeoGebra...";
 
   return `<!doctype html>
-<html>
+<html lang="${escapeHtmlAttribute(String(appletParams.language || "en"))}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    @font-face {
+      font-family: "geogebra-sans-serif";
+      src: local("Inter"),
+           local("Segoe UI"),
+           local("Roboto"),
+           local("-apple-system"),
+           local("BlinkMacSystemFont"),
+           local("Helvetica Neue"),
+           local("Arial"),
+           local("Vazirmatn"),
+           local("sans-serif");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Arial Unicode MS";
+      src: local("Inter"),
+           local("Segoe UI"),
+           local("Roboto"),
+           local("-apple-system"),
+           local("BlinkMacSystemFont"),
+           local("Helvetica Neue"),
+           local("Arial"),
+           local("Vazirmatn"),
+           local("sans-serif");
+      font-display: swap;
+    }
+
+    :root {
+      --ggb-font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, Inter, "Vazirmatn", sans-serif;
+    }
+
     html,
     body {
       width: 100%;
@@ -31,6 +63,19 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
       margin: 0;
       overflow: hidden;
       background: transparent;
+      font-family: var(--ggb-font-stack);
+    }
+
+    #ggb-element,
+    .GeoGebraFrame,
+    .KeyBoard,
+    .KeyBoardButton,
+    .gwt-PopupPanel {
+      font-family: var(--ggb-font-stack) !important;
+    }
+
+    .KeyBoardButton.greek {
+      font-family: "greek", var(--ggb-font-stack) !important;
     }
 
     #ggb-element {
@@ -100,6 +145,13 @@ export function buildGeoGebraHTML(options: BuildGeoGebraHTMLOptions): string {
         }
 
         params.appletOnLoad = function (api) {
+          if (typeof api.setLanguage === "function" && params.language) {
+            try {
+              api.setLanguage(params.language);
+            } catch (e) {
+              console.warn("[geogebra-lab] Failed to force language via api.setLanguage:", e);
+            }
+          }
           runCommands(api);
         };
 

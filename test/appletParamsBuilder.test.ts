@@ -24,6 +24,7 @@ test("buildAppletParams includes core defaults", () => {
   assert.equal(params.showToolBar, false);
   assert.equal(params.showAlgebraInput, true);
   assert.equal(params.showMenuBar, false);
+  assert.equal(params.language, "en");
 });
 
 test("buildAppletParams maps all new GeoGebra API parameters without hardcoding", () => {

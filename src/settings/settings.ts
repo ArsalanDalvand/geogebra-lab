@@ -149,7 +149,7 @@ export const DEFAULT_SETTINGS: GeoGebraLabSettings = {
   defaultDisableJavaScript: false,
 
   // Localization & Mathematics defaults
-  defaultLanguage: "",
+  defaultLanguage: "en",
   defaultCountry: "",
   defaultRounding: "",
   defaultRandomSeed: undefined,

@@ -5,6 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GeoGebra Lab Viewer</title>
   <style>
+    @font-face {
+      font-family: "geogebra-sans-serif";
+      src: local("Inter"),
+           local("Segoe UI"),
+           local("Roboto"),
+           local("-apple-system"),
+           local("BlinkMacSystemFont"),
+           local("Helvetica Neue"),
+           local("Arial"),
+           local("Vazirmatn"),
+           local("sans-serif");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Arial Unicode MS";
+      src: local("Inter"),
+           local("Segoe UI"),
+           local("Roboto"),
+           local("-apple-system"),
+           local("BlinkMacSystemFont"),
+           local("Helvetica Neue"),
+           local("Arial"),
+           local("Vazirmatn"),
+           local("sans-serif");
+      font-display: swap;
+    }
+
+    :root {
+      --ggb-font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, Inter, "Vazirmatn", sans-serif;
+    }
+
     html,
     body {
       width: 100%;
@@ -12,6 +44,19 @@
       margin: 0;
       overflow: hidden;
       background: transparent;
+      font-family: var(--ggb-font-stack);
+    }
+
+    #ggb-element,
+    .GeoGebraFrame,
+    .KeyBoard,
+    .KeyBoardButton,
+    .gwt-PopupPanel {
+      font-family: var(--ggb-font-stack) !important;
+    }
+
+    .KeyBoardButton.greek {
+      font-family: "greek", var(--ggb-font-stack) !important;
     }
 
     #ggb-element {
@@ -111,7 +156,23 @@
           params.material_id = cfg.materialId;
         }
 
+        var targetLanguage =
+          cfg.language && typeof cfg.language === "string" && cfg.language.trim()
+            ? cfg.language.trim()
+            : "en";
+        params.language = targetLanguage;
+        if (document.documentElement) {
+          document.documentElement.lang = targetLanguage;
+        }
+
         params.appletOnLoad = function (api) {
+          if (typeof api.setLanguage === "function" && targetLanguage) {
+            try {
+              api.setLanguage(targetLanguage);
+            } catch (e) {
+              console.warn("[geogebra-lab viewer] Failed to force language via api.setLanguage:", e);
+            }
+          }
           runCommands(api, cfg.commands || []);
         };
 

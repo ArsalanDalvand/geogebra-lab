@@ -229,7 +229,10 @@ export function normalizeSettings(data: unknown): GeoGebraLabSettings {
     ),
 
     // Localization & Mathematics defaults
-    defaultLanguage: normalizeLanguageCode(data.defaultLanguage),
+    defaultLanguage:
+      typeof data.defaultLanguage === "string"
+        ? normalizeLanguageCode(data.defaultLanguage)
+        : DEFAULT_SETTINGS.defaultLanguage,
     defaultCountry: readString(data.defaultCountry, DEFAULT_SETTINGS.defaultCountry),
     defaultRounding: readString(data.defaultRounding, DEFAULT_SETTINGS.defaultRounding),
     defaultRandomSeed: readOptionalBoundedNumber(data.defaultRandomSeed),
